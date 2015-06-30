@@ -86,6 +86,11 @@ public class UserAdd extends javax.swing.JFrame {
         jLabel5.setText("Password");
 
         dept_combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "FO", "POMEC", "ACCT", "S&M", "A&G", "HK" }));
+        dept_combo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dept_comboActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Department");
 
@@ -373,6 +378,12 @@ public class UserAdd extends javax.swing.JFrame {
     private void passConf_checkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passConf_checkActionPerformed
         
     }//GEN-LAST:event_passConf_checkActionPerformed
+
+    private void dept_comboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dept_comboActionPerformed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_dept_comboActionPerformed
 
     /**
      * @param args the command line arguments
