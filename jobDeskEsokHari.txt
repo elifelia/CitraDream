@@ -1,0 +1,71 @@
+ric kamu tau ttg sistem perhotelan ga?
+
+aku pengen bikin Jtable yang bisa ditambah di delete saat runtime, trus nyimpen nya sekaligus di query
+dan database gimana caranya?
+
+kenapa ya pas aku nambahin table pas runtime itu pada table yang baru muncul Llang bla bla bla @bla bbla bla
+
+sedih banget nulis2 kemeng jg
+
+bisa ga aku ngechat tempatmu tapi pake nembak ip?
+kamu bikin brti
+aku capek ngetik trus ditunjuk2in
+
+ini kan array kalo database?
+sek liat ni
+
+trus aku ngapain lagi?
+
+jadi pas kemaren aku liat remarks itu banyak, di table ada di bawah juga ada.. gimana tuh?
+tapi yang dibawah itu aku gatau remark apaa aja
+
+maksudnya siapa aja yang buat remarks
+jadi kemaren itu ada leader remark trus ada accounting remark tapi aku lupa nama pastinyaya gak sih
+
+harusnya tanda tangan, tapi kan berhubung ga bisa ttd minimal ada namanya aja
+tapi nama fieldnya itu remark sihtapi gatau juga
+yaudah bikin aja kalo salah tinggal dihapus
+
+opo aku kudu ngambil pr nya di kos?
+kalo tidak merepotkan
+aku manut
+
+eric kasi aku jobdesk langkah2 yang harus ku lakuin, ini yang pengen ku tanya
+1. nambahin baris
+tambahin method parameternya purchase request *dari kelas bean*
+ini dikelas table model. intinya nge add object bean ke arraylistnya
+akhirnya dikasi fireTabelDataChanged *untuk ngasitau guinya kalo table sudah berubah dan perlu redrawing*
+
+1.a Reload table
+ model.setData(purchaseRequestDAO.getAllData());
+
+
+2. remove baris
+SDA
+
+3. nyimpen ke database
+execute query? yang biasanya?
+tapi nyimpen banyak sekaligus?
+
+caranya sama?nah itu dia
+maksudku gimanaaaaaaaaaaaa
+oke aku googling aja
+jangan, ndak besok aku gaada kerjaan
+
+4. bikin lookup di table
+jadi ding
+jadi di dalam table itu aku pengen ada tombol untuk manggil window lain
+kan ada kolom descrpition.. itu kita milih barang
+dan itu ratusan
+dan kayaknya butuh milih 
+iya
+lalu lalang? reserach? so ? oh oke aku googling
+key : tutorial oracle using jTable
+aku udah pernah pake key ini dan itu banyak BANGET T.T
+iyaaaaa, aku dah perna buka
+sek kayaknya aku salah 
+yodah besok aku baca
+kenapa? betol
+
+trus kalo ngambil database di taruh di dropdown sama juga?
+tutorial using comboBox
