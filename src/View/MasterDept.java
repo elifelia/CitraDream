@@ -7,7 +7,7 @@
 package View;
 
 import Bean.DepartmentBean;
-
+import Controller.DeptTableModel;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 
@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  * @author Elifelia
  */
 public class MasterDept extends javax.swing.JFrame {
-//    private DeptTableModel model;
+    private DeptTableModel model;
 
     /**
      * Creates new form MasterDept
