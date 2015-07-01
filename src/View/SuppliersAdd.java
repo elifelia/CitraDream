@@ -76,6 +76,7 @@ public class SuppliersAdd extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
         lastDelivery = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -159,6 +160,13 @@ public class SuppliersAdd extends javax.swing.JFrame {
 
         lastDelivery.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lastDelivery.setText("jLabel22");
+
+        jButton2.setText("View");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -257,14 +265,17 @@ public class SuppliersAdd extends javax.swing.JFrame {
                     .addComponent(jLabel20))
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lastDelivery))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(161, 161, 161)
-                .addComponent(jLabel21))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(66, 66, 66)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel21))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lastDelivery))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -349,7 +360,9 @@ public class SuppliersAdd extends javax.swing.JFrame {
                     .addComponent(lastDelivery))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(jButton2))
                     .addComponent(jLabel21)))
         );
 
@@ -382,6 +395,13 @@ public class SuppliersAdd extends javax.swing.JFrame {
         
         JOptionPane.showMessageDialog(null, "Supplier successfully added");
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        TableSupplier tc = new TableSupplier();
+        tc.setVisible(true);
+        tc.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -433,6 +453,7 @@ public class SuppliersAdd extends javax.swing.JFrame {
     private javax.swing.JTextField country;
     private javax.swing.JTextField fax;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

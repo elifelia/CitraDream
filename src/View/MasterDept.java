@@ -75,6 +75,11 @@ public class MasterDept extends javax.swing.JFrame {
         jLabel4.setText("insert new department's data below");
 
         jButton1.setText("View");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/corner.png"))); // NOI18N
 
@@ -171,6 +176,13 @@ public class MasterDept extends javax.swing.JFrame {
 //        ((DeptTableModel)deptTable.getModel()).setData(DeptDAO.getAllData());
         
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        TableDepartment tc = new TableDepartment();
+        tc.setVisible(true);
+        tc.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

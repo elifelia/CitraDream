@@ -158,6 +158,9 @@ public class MasterCategory extends javax.swing.JFrame {
 
     private void viewTableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewTableButtonActionPerformed
         // TODO add your handling code here:
+        TableCategory tc = new TableCategory();
+        tc.setVisible(true);
+        tc.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_viewTableButtonActionPerformed
 
     /**

@@ -75,6 +75,11 @@ public class MasterMeasure extends javax.swing.JFrame {
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/corner.png"))); // NOI18N
 
         jButton1.setText("View");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -173,6 +178,13 @@ public class MasterMeasure extends javax.swing.JFrame {
         mb.addMeasure(measureIDField.getText(), measureNameField.getText());
         JOptionPane.showMessageDialog(null, "Measure has added successfully");
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        TableMeasure tc = new TableMeasure();
+        tc.setVisible(true);
+        tc.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

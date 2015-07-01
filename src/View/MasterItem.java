@@ -105,6 +105,11 @@ public class MasterItem extends javax.swing.JFrame {
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/corner.png"))); // NOI18N
 
         jButton1.setText("View");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -222,6 +227,13 @@ public class MasterItem extends javax.swing.JFrame {
     private void measureComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_measureComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_measureComboBoxActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        TableItem tc = new TableItem();
+        tc.setVisible(true);
+        tc.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
         Connection con;
         PreparedStatement pst;

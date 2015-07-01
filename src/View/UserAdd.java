@@ -82,6 +82,7 @@ public class UserAdd extends javax.swing.JFrame {
         status = new javax.swing.JLabel();
         rfv_check = new javax.swing.JCheckBox();
         password = new javax.swing.JLabel();
+        reset_button1 = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
 
@@ -180,6 +181,15 @@ public class UserAdd extends javax.swing.JFrame {
         password.setForeground(new java.awt.Color(255, 0, 0));
         password.setText("");
 
+        reset_button1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        reset_button1.setText("View");
+        reset_button1.setToolTipText("");
+        reset_button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reset_button1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -230,13 +240,14 @@ public class UserAdd extends javax.swing.JFrame {
                         .addGap(43, 43, 43)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(save_button)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(pov_check)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(pov_check)
-                                        .addGap(22, 22, 22)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(reset_button)
+                                        .addComponent(save_button)
+                                        .addGap(30, 30, 30)
+                                        .addComponent(reset_button)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(reset_button1)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel14))
                             .addGroup(layout.createSequentialGroup()
@@ -328,7 +339,8 @@ public class UserAdd extends javax.swing.JFrame {
                         .addGap(48, 48, 48)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(save_button)
-                            .addComponent(reset_button))
+                            .addComponent(reset_button)
+                            .addComponent(reset_button1))
                         .addGap(20, 20, 20))
                     .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)))
         );
@@ -387,6 +399,13 @@ public class UserAdd extends javax.swing.JFrame {
         
 
     }//GEN-LAST:event_dept_comboActionPerformed
+
+    private void reset_button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reset_button1ActionPerformed
+        // TODO add your handling code here:
+        TableUser tc = new TableUser();
+        tc.setVisible(true);
+        tc.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_reset_button1ActionPerformed
 
     
     
@@ -477,6 +496,7 @@ public class UserAdd extends javax.swing.JFrame {
     private javax.swing.JCheckBox prf_check;
     private javax.swing.JCheckBox prv_check;
     private javax.swing.JButton reset_button;
+    private javax.swing.JButton reset_button1;
     private javax.swing.JCheckBox rf_check;
     private javax.swing.JCheckBox rfv_check;
     private javax.swing.JButton save_button;
