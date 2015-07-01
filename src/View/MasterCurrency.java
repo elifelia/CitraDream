@@ -8,6 +8,7 @@ package View;
 
 import Bean.CurrencyBean;
 import java.awt.Toolkit;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -167,7 +168,7 @@ public class MasterCurrency extends javax.swing.JFrame {
         // TODO add your handling code here:
         CurrencyBean cb = new CurrencyBean();
         cb.addCurrency(currencyIDField.getText(), currencyNameField.getText());
-        
+        JOptionPane.showMessageDialog(null, "Currency successfully added");
     }//GEN-LAST:event_saveButtonActionPerformed
 
     /**

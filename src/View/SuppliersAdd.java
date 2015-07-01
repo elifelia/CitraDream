@@ -8,6 +8,7 @@ package View;
 import Bean.SupplierBean;
 import java.awt.Toolkit;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -378,6 +379,8 @@ public class SuppliersAdd extends javax.swing.JFrame {
         phone.getText(), fax.getText(), bankName.getText(), accountNo.getText(),
         accountHolder.getText(), null, comment.getText());
         //string ke date?
+        
+        JOptionPane.showMessageDialog(null, "Supplier successfully added");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

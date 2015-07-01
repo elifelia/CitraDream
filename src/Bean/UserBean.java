@@ -6,6 +6,13 @@
 package Bean;
 
 //import Controller.Controller;
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -207,5 +214,63 @@ public class UserBean {
 
     public void setDept_id(String dept_id) {
         this.dept_id = dept_id;
+    }
+    
+    public String setUSERid(String dept_name) {       
+        DatabaseConnection db = new DatabaseConnection();
+        String id = null;
+        try {     
+            int num = 0;
+            String query = "select count(dept_id) from `citradream_purchasing`.`hcdy_userdata` where dept_id='"+dept_name+"'";
+            Statement statement = db.getConnection().createStatement();
+            java.sql.ResultSet rs = statement.executeQuery(query);
+            while (rs.next()) {
+                num = Integer.parseInt(rs.getString(1));
+            }
+            num++;
+            switch (dept_name) {
+                case "POMEC":
+                    id = "HCDY_PM_"+num;
+                    break;
+                case "FO":
+                    id = "HCDY_FO_"+num;
+                    break;
+                case "HK":
+                    id = "HCDY_HK_"+num;
+                    break;
+                case "ACCT":
+                    id = "HCDY_AC_"+num;
+                    break;
+                case "S&M":
+                    id = "HCDY_SM_"+num;
+                    break;
+                case "A&G":
+                    id = "HCDY_AG_"+num;
+                    break;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+    
+    private static final String OUTPUT_STRING="C:\\filelogin.txt";
+    public void dataLoginFile(String userData, String deptData){
+ 
+        byte[] bytesname = userData.getBytes();
+        byte[] bytedept = deptData.getBytes();
+        Path filePath = Paths.get(OUTPUT_STRING);
+        try{
+            OutputStream out = new BufferedOutputStream(new FileOutputStream(OUTPUT_STRING),1024);
+            try {
+                out.write(bytesname);
+                out.write(bytedept);
+                
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(purchaseRequest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

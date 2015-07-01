@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,5 +53,31 @@ public class DepartmentBean {
             System.out.println(ex);
         }
         return department;
+    }
+
+    public String[] showDepartment() {
+        DatabaseConnection db = new DatabaseConnection();
+        String[] list = null;
+        try {
+            int i = 1;
+            Statement statement = db.getConnection().createStatement();
+            String query = "select department_id from hcdy_department";
+            ResultSet rs = statement.executeQuery(query);
+            while (rs.next()) {
+                String name = rs.getString(1);
+                list[i] = name;
+                i++;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DepartmentBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        DepartmentBean wow = new DepartmentBean();
+        for (int i = 1; i <= 6; i++) {
+            System.out.println(wow.showDepartment()[i]);
+        }
     }
 }

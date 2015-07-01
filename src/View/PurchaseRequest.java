@@ -5,14 +5,19 @@
  */
 package View;
 
-import Controller.citraDreamTableModel;
+import Bean.DatabaseConnection;
+import Controller.DeptTableModel;
 import Controller.purchaseRequestDAO;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
 /**
@@ -21,7 +26,10 @@ import javax.swing.table.TableModel;
  */
 public class PurchaseRequest extends javax.swing.JFrame {
 
-    private citraDreamTableModel model;
+    private DeptTableModel model;
+    Connection con;
+    PreparedStatement pst;
+    ResultSet rs;
 
     /**
      * Creates new form FormPengadaan
@@ -29,6 +37,7 @@ public class PurchaseRequest extends javax.swing.JFrame {
     public PurchaseRequest() {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/icon.png")));
+        fillCombo();
 //        addWindowListener(new WindowAdapter() {
 //
 //            @Override
@@ -72,7 +81,7 @@ public class PurchaseRequest extends javax.swing.JFrame {
         prNo = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         qtyOnHandField = new javax.swing.JTextField();
-        jComboBox2 = new javax.swing.JComboBox();
+        measureCombo = new javax.swing.JComboBox();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -140,6 +149,11 @@ public class PurchaseRequest extends javax.swing.JFrame {
 
         jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton3.setText("Save");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         reloadButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/refresh-icon.png"))); // NOI18N
         reloadButton.setToolTipText("click here for database refreshing");
@@ -171,8 +185,12 @@ public class PurchaseRequest extends javax.swing.JFrame {
             }
         });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.setToolTipText("choose Requested item's Measure Unit here");
+        measureCombo.setToolTipText("choose Requested item's Measure Unit here");
+        measureCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                measureComboActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jLabel9.setText("insert purchase request data below");
@@ -243,7 +261,7 @@ public class PurchaseRequest extends javax.swing.JFrame {
                                         .addComponent(jLabel15))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(measureCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel16))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -351,7 +369,7 @@ public class PurchaseRequest extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
                             .addComponent(qtyOnHandField)
-                            .addComponent(jComboBox2)
+                            .addComponent(measureCombo)
                             .addComponent(remarksField)
                             .addComponent(qtyRequestField)
                             .addComponent(itemDescriptionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -423,6 +441,34 @@ public class PurchaseRequest extends javax.swing.JFrame {
         remarksField.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Purchase Request successfully added/edited");
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void measureComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_measureComboActionPerformed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_measureComboActionPerformed
+
+    private void fillCombo(){
+        try {
+        DatabaseConnection db = new DatabaseConnection();
+        String query ="SELECT measureUnit_id FROM hcdy_itemmaster "
+                + "WHERE item_name = '"+itemDescriptionField.getText()+"'";
+        con = db.getConnection();
+        pst = con.prepareStatement(query);
+        rs = pst.executeQuery();
+        
+            while (rs.next()) {                
+                String measure = rs.getString("measureUnit_id");
+                measureCombo.addItem(measure);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -466,7 +512,6 @@ public class PurchaseRequest extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBox2;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
@@ -494,6 +539,7 @@ public class PurchaseRequest extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JComboBox measureCombo;
     private javax.swing.JLabel prNo;
     private javax.swing.JLabel purchaseRequestLabel;
     private javax.swing.JTextField qtyOnHandField;

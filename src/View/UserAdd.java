@@ -5,9 +5,19 @@
  */
 package View;
 
+import Bean.DatabaseConnection;
+import Bean.DepartmentBean;
 import Bean.UserBean;
 import java.awt.Color;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -15,11 +25,18 @@ import java.awt.Toolkit;
  */
 public class UserAdd extends javax.swing.JFrame {
 
+    Connection con;
+    Statement st;
+    private DefaultComboBoxModel tableModel= new DefaultComboBoxModel();
+    DepartmentBean department = new DepartmentBean();
+
     /**
      * Creates new form UserAdd
      */
     public UserAdd() {
+        
         initComponents();
+        fillCombo();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/icon.png")));
     }
 
@@ -65,8 +82,6 @@ public class UserAdd extends javax.swing.JFrame {
         status = new javax.swing.JLabel();
         rfv_check = new javax.swing.JCheckBox();
         password = new javax.swing.JLabel();
-        user_id = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
 
@@ -85,7 +100,6 @@ public class UserAdd extends javax.swing.JFrame {
 
         jLabel5.setText("Password");
 
-        dept_combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "FO", "POMEC", "ACCT", "S&M", "A&G", "HK" }));
         dept_combo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dept_comboActionPerformed(evt);
@@ -166,8 +180,6 @@ public class UserAdd extends javax.swing.JFrame {
         password.setForeground(new java.awt.Color(255, 0, 0));
         password.setText("");
 
-        jLabel15.setText("User ID");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -239,11 +251,9 @@ public class UserAdd extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel15))
+                            .addComponent(jLabel7))
                         .addGap(49, 49, 49)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(user_id)
                             .addComponent(passConf_check)
                             .addComponent(dept_combo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(username_text)
@@ -270,14 +280,7 @@ public class UserAdd extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(user_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel15)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(username_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -352,23 +355,23 @@ public class UserAdd extends javax.swing.JFrame {
 
     private void save_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save_buttonActionPerformed
         // TODO add your handling code here:
-            
+
         char[] strPass = pass_text.getPassword();
         char[] strPassConfirm = passConf_check.getPassword();
-        if(!(strPass.equals(strPassConfirm))){
+        if (!(strPass.equals(strPassConfirm))) {
             password.setText("Doesn't match !");
             password.setForeground(Color.red);
-        }else{
+        } else {
             UserBean ub = new UserBean();
-            ub.simpanUser(user_id.getText(),username_text.getText(), 
-                    pass_text.getText(),dept_combo.getSelectedItem().toString(),
+            ub.simpanUser(ub.setUSERid(dept_combo.getSelectedItem().toString()), username_text.getText(),
+                    pass_text.getText(), dept_combo.getSelectedItem().toString(),
                     prf_check.isSelected(), prv_check.isSelected(),
                     pof_check.isSelected(), pov_check.isSelected(),
                     poi_check.isSelected(), rf_check.isSelected(),
                     rfv_check.isSelected(), md_check.isSelected());
             password.setText("Matched");
             password.setForeground(Color.GREEN);
-       }
+        }
     }//GEN-LAST:event_save_buttonActionPerformed
 
     private void pov_checkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pov_checkActionPerformed
@@ -376,15 +379,17 @@ public class UserAdd extends javax.swing.JFrame {
     }//GEN-LAST:event_pov_checkActionPerformed
 
     private void passConf_checkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passConf_checkActionPerformed
-        
+
     }//GEN-LAST:event_passConf_checkActionPerformed
 
     private void dept_comboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dept_comboActionPerformed
         // TODO add your handling code here:
         
-        
+
     }//GEN-LAST:event_dept_comboActionPerformed
 
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -418,9 +423,29 @@ public class UserAdd extends javax.swing.JFrame {
                 new UserAdd().setVisible(true);
             }
         });
-        
+
 //        Char[] pass = pass_text.getText();
 //        if(!Array.equals())
+    }
+    
+   
+        PreparedStatement pst;
+        ResultSet rs;
+        private void fillCombo(){
+        try {
+        DatabaseConnection db = new DatabaseConnection();
+        String query ="SELECT department_id FROM hcdy_department";
+        con = db.getConnection();
+        pst = con.prepareStatement(query);
+        rs = pst.executeQuery();
+        
+            while (rs.next()) {                
+                String dept = rs.getString("department_id");
+                dept_combo.addItem(dept);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -431,7 +456,6 @@ public class UserAdd extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -457,7 +481,6 @@ public class UserAdd extends javax.swing.JFrame {
     private javax.swing.JCheckBox rfv_check;
     private javax.swing.JButton save_button;
     private javax.swing.JLabel status;
-    private javax.swing.JTextField user_id;
     private javax.swing.JTextField username_text;
     // End of variables declaration//GEN-END:variables
 }

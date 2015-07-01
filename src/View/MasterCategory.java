@@ -66,6 +66,11 @@ public class MasterCategory extends javax.swing.JFrame {
         jLabel4.setText("Category Master");
 
         viewTableButton.setText("View");
+        viewTableButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewTableButtonActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("FORM");
 
@@ -150,6 +155,10 @@ public class MasterCategory extends javax.swing.JFrame {
         CategoryBean cb = new CategoryBean();
         cb.addCategory(categoryIDField.getText(), categoryNameField.getText());
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void viewTableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewTableButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_viewTableButtonActionPerformed
 
     /**
      * @param args the command line arguments

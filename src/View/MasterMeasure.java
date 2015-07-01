@@ -7,6 +7,7 @@ package View;
 
 import Bean.MeasureBean;
 import java.awt.Toolkit;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -170,6 +171,7 @@ public class MasterMeasure extends javax.swing.JFrame {
         // TODO add your handling code here:
         MeasureBean mb = new MeasureBean();
         mb.addMeasure(measureIDField.getText(), measureNameField.getText());
+        JOptionPane.showMessageDialog(null, "Measure has added successfully");
     }//GEN-LAST:event_saveButtonActionPerformed
 
     /**
