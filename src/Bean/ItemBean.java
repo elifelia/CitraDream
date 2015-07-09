@@ -8,12 +8,10 @@ package Bean;
 
 //import Controller.Controller;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,6 +22,8 @@ public class ItemBean {
     private String ItemName;
     private String categoryID;
     private String measure;
+    private String itemDesc;
+    private Float qtyOnHand;
     Connection connection;
     ResultSet resultSet;
     Statement statement;
@@ -55,6 +55,7 @@ public class ItemBean {
         } catch (SQLException ex) {
 //            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Data isn't complete/ Wrong format");
         }
         return item;
     }
@@ -114,4 +115,51 @@ public class ItemBean {
         }
         return measureArray;
     }
+    public ItemBean cariItem(String item) {
+        ItemBean ib = new ItemBean();
+//        ub = null;
+        try {
+            DatabaseConnection db = new DatabaseConnection();
+
+            Statement statement = db.getConnection().createStatement();
+            String query = "SELECT * FROM hcdy_itemmaster WHERE item_name like '%" + item + "%'";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+
+                if (null != resultSet) {
+                    ib.setItemID(resultSet.getString("item_id"));
+                    ib.setItemName(resultSet.getString("item_name"));
+                    ib.setCategoryID(resultSet.getString("category_id"));
+                    ib.setMeasure(resultSet.getString("measureUnit_id"));
+                    ib.setItemDesc(resultSet.getString("item_desc"));
+                    ib.setQtyOnHand(resultSet.getFloat("QtyOnHand"));
+                    
+                }
+
+            }
+
+        } catch (SQLException ex) {
+//            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+        }
+        return ib;
+    }
+
+    public String getItemDesc() {
+        return itemDesc;
+    }
+
+    public void setItemDesc(String itemDesc) {
+        this.itemDesc = itemDesc;
+    }
+
+    public Float getQtyOnHand() {
+        return qtyOnHand;
+    }
+
+    public void setQtyOnHand(Float qtyOnHand) {
+        this.qtyOnHand = qtyOnHand;
+    }
+
 }

@@ -6,38 +6,55 @@
 
 package View;
 
+import Bean.DatabaseConnection;
+import Bean.ItemBean;
 import Bean.PurchaseRequestBean;
-import Controller.PurchaseRequestLookUpTableModel;
-import Controller.purchaseRequestDAO;
+//import Controller.PurchaseRequestLookUpTableModel;
+//import Controller.purchaseRequestDAO;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
  * @author Elifelia
  */
-public class PurchaseRequestLookUp extends javax.swing.JFrame {
-    private PurchaseRequestLookUpTableModel model;
+public class PR_LookupItem extends javax.swing.JFrame {
+//    private PurchaseRequestLookUpTableModel model;
     /**
      * Creates new form PurchaseRequestLookUp
      */
-    public PurchaseRequestLookUp() {
+    
+    Connection conn;
+    ResultSet rs;
+    PreparedStatement pst;
+    
+    public PR_LookupItem() {
         initComponents();
+        DatabaseConnection db = new DatabaseConnection();
+        conn = db.getConnection();
+        DBtoTable();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/icon.png")));
-//        addWindowListener(new WindowAdapter() {
-//
-//            @Override
-//            public void windowOpened(WindowEvent e) {
-//                try {
-//                    model.setData(purchaseRequestDAO.getAllData());
-//                } catch (SQLException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//
-//        });
+        findField.getDocument().addDocumentListener(new PR_LookupItem.FindListener());
+
+        /**
+     * Aku mau passing value dari table row 1 aja ke JFrame PurchaseRequest
+     * ke textfieldnya (itemdesc)
+     * Jadi ceritanya kan kita buka purchaseRequest dulu, trus ada button
+     * disamping itemdescription texfield itu ada button buat buka frame baru
+     * nah value itu yang mau di passing ke window induknya
+     * okok??
+     */
+        
     }
 
     /**
@@ -50,33 +67,19 @@ public class PurchaseRequestLookUp extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jScrollBar1 = new javax.swing.JScrollBar();
-        jButton1 = new javax.swing.JButton();
+        chooseButton = new javax.swing.JButton();
         findField = new javax.swing.JTextField();
-        findButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableFind = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(model = new Controller.PurchaseRequestLookUpTableModel());
-        jScrollPane1.setViewportView(jTable1);
-
-        jScrollPane2.setViewportView(jScrollBar1);
-
-        jButton1.setText("Choose");
-
-        findButton.setText("Find");
-        findButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                findButtonActionPerformed(evt);
-            }
-        });
+        chooseButton.setText("Choose");
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logo.png"))); // NOI18N
 
@@ -84,6 +87,15 @@ public class PurchaseRequestLookUp extends javax.swing.JFrame {
         jLabel2.setText("product description data finder");
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/corner.png"))); // NOI18N
+
+        tableFind.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableFindMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableFind);
+
+        jScrollPane3.setViewportView(jScrollPane1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -104,19 +116,14 @@ public class PurchaseRequestLookUp extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(findField, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(findButton))
+                        .addComponent(chooseButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(120, 120, 120)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(findField, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 30, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,21 +135,17 @@ public class PurchaseRequestLookUp extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(findField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(findButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(findField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel3))))
+                        .addGap(0, 8, Short.MAX_VALUE)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(chooseButton)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -159,12 +162,22 @@ public class PurchaseRequestLookUp extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void findButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findButtonActionPerformed
+    private void tableFindMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableFindMouseClicked
         // TODO add your handling code here:
-        PurchaseRequestBean prb = new PurchaseRequestBean();
-        prb.searchProduct(findField.getText());
-    }//GEN-LAST:event_findButtonActionPerformed
+        ItemBean ib = new ItemBean();
+        ItemBean temp;
+        int row = tableFind.getSelectedRow();
+        temp = ib.cariItem(tableFind.getModel().getValueAt(row, 1).toString());
+        
+        
+    }//GEN-LAST:event_tableFindMouseClicked
 
+//    public void clickTable(){
+//        tableFind.addMouseListener(new java.awt.event.MouseAdapter() {
+//        
+//        });
+//    }
+    
     /**
      * @param args the command line arguments
      */
@@ -182,36 +195,78 @@ public class PurchaseRequestLookUp extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PurchaseRequestLookUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PR_LookupItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PurchaseRequestLookUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PR_LookupItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PurchaseRequestLookUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PR_LookupItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PurchaseRequestLookUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PR_LookupItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PurchaseRequestLookUp().setVisible(true);
+                new PR_LookupItem().setVisible(true);
             }
         });
     }
+    
+    
+    
+    private void DBtoTable() {
+
+        try {
+            String query = "SELECT item_id, item_name, category_id FROM hcdy_itemmaster";
+            pst = conn.prepareStatement(query);
+            rs = pst.executeQuery();
+            tableFind.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (SQLException ex) {
+            Logger.getLogger(TableUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void findTable() {
+        try {
+            String query = "SELECT item_id, item_name, category_id FROM hcdy_itemmaster"
+                    + " WHERE item_name LIKE '%" + findField.getText() + "%'";
+            pst = conn.prepareStatement(query);
+            rs = pst.executeQuery();
+            tableFind.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (SQLException ex) {
+            Logger.getLogger(TableCategory.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private class FindListener implements DocumentListener {
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            findTable();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            findTable();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            findTable();
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton findButton;
+    private javax.swing.JButton chooseButton;
     private javax.swing.JTextField findField;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
+    public javax.swing.JTable tableFind;
     // End of variables declaration//GEN-END:variables
 }

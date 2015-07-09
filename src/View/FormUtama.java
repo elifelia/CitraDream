@@ -8,6 +8,7 @@ package View;
 
 import Bean.UserBean;
 import java.awt.Toolkit;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,16 +34,19 @@ public class FormUtama extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         jInternalFrame1 = new javax.swing.JInternalFrame();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         usernameField = new javax.swing.JTextField();
         passwordField = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        logout = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         purchasingMenuBar = new javax.swing.JMenu();
         purchaseRequestMenu = new javax.swing.JMenu();
@@ -51,6 +55,7 @@ public class FormUtama extends javax.swing.JFrame {
         purchaseOrderMenu = new javax.swing.JMenu();
         purchaseOrderForm = new javax.swing.JMenuItem();
         purchaseOrderView = new javax.swing.JMenuItem();
+        PurchaseOrderInactiving = new javax.swing.JMenuItem();
         receivingMenu = new javax.swing.JMenu();
         receivingForm = new javax.swing.JMenuItem();
         receivingView = new javax.swing.JMenuItem();
@@ -64,6 +69,48 @@ public class FormUtama extends javax.swing.JFrame {
         currency = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Purchasing System");
+        setResizable(false);
+
+        jLabel3.setText("Citra Dream Hotel Yogyakarta");
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/corner.png"))); // NOI18N
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logo.png"))); // NOI18N
+
+        jLabel6.setText("Purchasing System");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(125, 125, 125)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(30, 30, 30))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(60, 60, 60)))
+                .addGap(33, 33, 33)
+                .addComponent(jLabel4))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addGap(1, 1, 1)
+                .addComponent(jLabel6)
+                .addGap(11, 11, 11))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4))
+        );
 
         jInternalFrame1.setVisible(true);
 
@@ -89,12 +136,12 @@ public class FormUtama extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(loginButton)
-                            .addComponent(passwordField))))
+                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
         jInternalFrame1Layout.setVerticalGroup(
@@ -108,56 +155,46 @@ public class FormUtama extends javax.swing.JFrame {
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(loginButton)
-                .addContainerGap(15, Short.MAX_VALUE))
-        );
-
-        jLabel3.setText("Citra Dream Hotel Yogyakarta");
-
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/corner.png"))); // NOI18N
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logo.png"))); // NOI18N
-
-        jLabel6.setText("Purchasing System");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(46, 46, 46))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(80, 80, 80))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(103, 103, 103)))
-                .addComponent(jLabel4))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(85, 85, 85)
-                .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 103, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addGap(0, 0, 0)
-                .addComponent(jLabel6)
-                .addGap(12, 12, 12))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel4))
+                .addComponent(loginButton)
+                .addGap(15, 15, 15))
+        );
+
+        jLabel7.setText("jLabel7");
+        jLabel7.setVisible(false);
+
+        logout.setText("Logout");
+        logout.setVisible(false);
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(logout))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(89, 89, 89))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(logout))
+                    .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         purchasingMenuBar.setText("Purchasing");
@@ -195,6 +232,14 @@ public class FormUtama extends javax.swing.JFrame {
 
         purchaseOrderView.setText("Purchase Order View");
         purchaseOrderMenu.add(purchaseOrderView);
+
+        PurchaseOrderInactiving.setText("Purchase Order Inactiving");
+        PurchaseOrderInactiving.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PurchaseOrderInactivingActionPerformed(evt);
+            }
+        });
+        purchaseOrderMenu.add(PurchaseOrderInactiving);
 
         purchasingMenuBar.add(purchaseOrderMenu);
 
@@ -277,11 +322,15 @@ public class FormUtama extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -325,7 +374,7 @@ public class FormUtama extends javax.swing.JFrame {
 
     private void categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryActionPerformed
         // TODO add your handling code here:
-        MasterItem pr  = new MasterItem();
+        MasterCategory pr  = new MasterCategory();
         pr.setVisible(true);
         pr.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_categoryActionPerformed
@@ -361,12 +410,48 @@ public class FormUtama extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
         UserBean ub  = new UserBean();
-        if (ub.login(ub.cariUser(usernameField.getText(), passwordField.getText()))) {
+        UserBean temp;
+        temp = ub.cariUser(usernameField.getText(), passwordField.getText());
+        if (ub.login(temp)) {
+            JOptionPane.showMessageDialog(null, "Login Success!");
             purchasingMenuBar.setEnabled(true);
             masterDataMenuBar.setEnabled(true);
+            jInternalFrame1.setVisible(false);
+            jLabel7.setText("Welcome, "+temp.getUser_name());
+            jLabel7.setVisible(true);
+            logout.setVisible(true);
+            purchaseOrderForm.setEnabled(temp.getPurchaseOrd());
+            purchaseOrderView.setEnabled(temp.getPurchaseOrdView());
+            purchaseRequestForm.setEnabled(temp.getPurchaseReq());
+            purchaseRequestView.setEnabled(temp.getPurchaseReqView());
+            PurchaseOrderInactiving.setEnabled(temp.getPurchaseOrdInactive());
+            receivingForm.setEnabled(temp.getReceiving());
+            receivingView.setEnabled(temp.getReceivingView());
+            masterDataMenuBar.setEnabled(temp.getMasterData());
+            ub.dataLoginFile(temp.getUser_name(), temp.getDept_id());
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Login failed, Check your Username and Password");
+            usernameField.setText(null);
+            passwordField.setText(null);
         }
         
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+        JOptionPane.showConfirmDialog(null, "Are you want to Logout from system?");
+        purchasingMenuBar.setEnabled(false);
+        masterDataMenuBar.setEnabled(false);
+        jInternalFrame1.setVisible(true);
+        jLabel7.setVisible(false);
+        logout.setVisible(false);
+        usernameField.setText(null);
+        passwordField.setText(null);
+    }//GEN-LAST:event_logoutActionPerformed
+
+    private void PurchaseOrderInactivingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseOrderInactivingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PurchaseOrderInactivingActionPerformed
 
     /**
      * @param args the command line arguments
@@ -404,6 +489,7 @@ public class FormUtama extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem PurchaseOrderInactiving;
     private javax.swing.JMenuItem category;
     private javax.swing.JMenuItem currency;
     private javax.swing.JMenuItem department;
@@ -415,10 +501,13 @@ public class FormUtama extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JButton loginButton;
+    private javax.swing.JButton logout;
     private javax.swing.JMenu masterDataMenuBar;
     private javax.swing.JMenuItem measure;
     private javax.swing.JPasswordField passwordField;

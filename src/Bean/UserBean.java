@@ -6,16 +6,16 @@
 package Bean;
 
 //import Controller.Controller;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.springframework.web.servlet.mvc.Controller;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -35,59 +35,79 @@ public class UserBean {
     private Boolean ReceivingView;
     private Boolean PurchaseOrdInactive;
     private Boolean masterData;
-    
-    
-//    
 
+//    
     public UserBean cariUser(String userID, String pass) {
         UserBean ub = new UserBean();
-//        ub = null;
+        DatabaseConnection db = new DatabaseConnection();
         try {
-            DatabaseConnection db = new DatabaseConnection();
-            
+
             Statement statement = db.getConnection().createStatement();
-            String query = "SELECT * FROM hcdy_userdata WHERE user_id ='" + userID + "' AND user_pass ='" + pass + "' ";
+            String query = "SELECT * FROM hcdy_userdata WHERE user_name ='" + userID + "' AND user_pass ='" + pass + "' ";
             ResultSet resultSet = statement.executeQuery(query);
-            
+
             while (resultSet.next()) {
-
-                if (null != resultSet) {
-                    ub.setUserID(resultSet.getString("user_id"));
-                    ub.setUser_name(resultSet.getString("user_name"));
-                    ub.setPass(resultSet.getString("user_pass"));
-                    ub.setDept_id(resultSet.getString("dept_id"));
-                    ub.setPurchaseReq(resultSet.getBoolean("bool_pfForm"));
-                    ub.setPurchaseReqView(resultSet.getBoolean("bool_pfView"));
-                    ub.setPurchaseOrd(resultSet.getBoolean("bool_poForm"));
-                    ub.setPurchaseOrdView(resultSet.getBoolean("bool_poView"));
-                    ub.setReceiving(resultSet.getBoolean(""));
-                    ub.setReceivingView(resultSet.getBoolean(""));
-                    ub.setMasterData(masterData);
-                    
-                }
-
+                ub.setUserID(resultSet.getString("user_id"));
+                ub.setUser_name(resultSet.getString("user_name"));
+                ub.setPass(resultSet.getString("user_pass"));
+                ub.setDept_id(resultSet.getString("dept_id"));
+                ub.setPurchaseReq(resultSet.getBoolean("bool_pfForm"));
+                ub.setPurchaseReqView(resultSet.getBoolean("bool_pfView"));
+                ub.setPurchaseOrd(resultSet.getBoolean("bool_poForm"));
+                ub.setPurchaseOrdView(resultSet.getBoolean("bool_poView"));
+                ub.setPurchaseOrdInactive(resultSet.getBoolean("bool_poInactive"));
+                ub.setReceiving(resultSet.getBoolean("bool_rrForm"));
+                ub.setReceivingView(resultSet.getBoolean("bool_rrView"));
+                ub.setMasterData(resultSet.getBoolean("bool_masterData"));
             }
 
         } catch (SQLException ex) {
-//            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Data isn't complete/ Wrong format");
+        }
+        return ub;
+    }
+
+    public Boolean login(UserBean ub) {
+        return ub.getUserID() != null;
+
+    }
+    public UserBean cariUsername(String username) {
+        UserBean ub = new UserBean();
+        DatabaseConnection db = new DatabaseConnection();
+        try {
+
+            Statement statement = db.getConnection().createStatement();
+            String query = "SELECT * FROM hcdy_userdata WHERE user_name like '%" + username + "%'";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                ub.setUserID(resultSet.getString("user_id"));
+                ub.setUser_name(resultSet.getString("user_name"));
+                ub.setPass(resultSet.getString("user_pass"));
+                ub.setDept_id(resultSet.getString("dept_id"));
+                ub.setPurchaseReq(resultSet.getBoolean("bool_pfForm"));
+                ub.setPurchaseReqView(resultSet.getBoolean("bool_pfView"));
+                ub.setPurchaseOrd(resultSet.getBoolean("bool_poForm"));
+                ub.setPurchaseOrdView(resultSet.getBoolean("bool_poView"));
+                ub.setPurchaseOrdInactive(resultSet.getBoolean("bool_poInactive"));
+                ub.setReceiving(resultSet.getBoolean("bool_rrForm"));
+                ub.setReceivingView(resultSet.getBoolean("bool_rrView"));
+                ub.setMasterData(resultSet.getBoolean("bool_masterData"));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);
         }
         return ub;
     }
-    
-    public Boolean login(UserBean ub){
-        if (ub.getUserID()!=null) {
-            return true;
-        }else{
-            return false;
-        }
-        
-    }
-    
-    public Boolean simpanUser(String userID, String user, String pass, String deptID, Boolean prf, Boolean prv, Boolean pof, 
-    Boolean pov, Boolean poi, Boolean rrf, Boolean rrv, Boolean master ){
+
+    public Boolean simpanUser(String userID, String user, String pass, String deptID, Boolean prf, Boolean prv, Boolean pof,
+            Boolean pov, Boolean poi, Boolean rrf, Boolean rrv, Boolean master) {
         boolean simpanStatus = false;
-    try {
+        try {
             DatabaseConnection db = new DatabaseConnection();
             String query = "INSERT INTO hcdy_userdata VALUES (?,?,?,?,?,?,?,?,?,?,?,?) ";
             PreparedStatement statement = db.getConnection().prepareStatement(query);
@@ -105,11 +125,11 @@ public class UserBean {
             statement.setBoolean(12, poi);
             statement.executeUpdate();
             simpanStatus = true;
-            
+
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-    return simpanStatus;
+        return simpanStatus;
     }
 
     public String getUserID() {
@@ -117,8 +137,7 @@ public class UserBean {
     }
 
     public void setUserID(String userID) {
-//        this.userID = userID;
-        
+        this.userID = userID;
     }
 
     public String getPass() {
@@ -208,4 +227,86 @@ public class UserBean {
     public void setDept_id(String dept_id) {
         this.dept_id = dept_id;
     }
+
+    public String setUSERid(String dept_name) {
+        DatabaseConnection db = new DatabaseConnection();
+        String id = null;
+        try {
+            int num = 0;
+            String query = "select count(dept_id) from `citradream_purchasing`.`hcdy_userdata` where dept_id='" + dept_name + "'";
+            Statement statement = db.getConnection().createStatement();
+            java.sql.ResultSet rs = statement.executeQuery(query);
+            while (rs.next()) {
+                num = Integer.parseInt(rs.getString(1));
+            }
+            num++;
+            switch (dept_name) {
+                case "POMEC":
+                    id = "HCDY_PM_" + num;
+                    break;
+                case "FO":
+                    id = "HCDY_FO_" + num;
+                    break;
+                case "HK":
+                    id = "HCDY_HK_" + num;
+                    break;
+                case "ACCT":
+                    id = "HCDY_AC_" + num;
+                    break;
+                case "S&M":
+                    id = "HCDY_SM_" + num;
+                    break;
+                case "A&G":
+                    id = "HCDY_AG_" + num;
+                    break;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+
+    public void dataLoginFile(String userData, String deptData) {
+        try{
+            FileWriter outputStream = new FileWriter(System.getProperty("user.dir")+"\'filelogin.txt");
+        } catch (IOException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            
+        }
+    }
+    
+    public Boolean updateUser(String userID, String user, String pass, 
+            String deptID, Boolean prf, Boolean prv, Boolean pof,
+            Boolean pov, Boolean poi, Boolean rrf, Boolean rrv, Boolean master) {
+        boolean simpanStatus = false;
+        try {
+            DatabaseConnection db = new DatabaseConnection();
+            String query = "UPDATE hcdy_userdata SET user_name=?, user_pass=?, dept_id=?, bool_pfForm=?,"
+                    + "bool_pfView=?, bool_poForm=?, bool_poView=?, bool_poInactive=?,"
+                    + "bool_rrView=?, bool_rrForm=?, bool_masterData=? WHERE user_id=?";
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            
+            statement.setString(1, user);
+            statement.setString(2, pass);
+            statement.setString(3, deptID);
+            statement.setBoolean(4, prf);
+            statement.setBoolean(5, prv);
+            statement.setBoolean(6, pof);
+            statement.setBoolean(7, pov);
+            statement.setBoolean(8, poi);
+            statement.setBoolean(9, rrv);
+            statement.setBoolean(10, rrf);
+            statement.setBoolean(11, master);
+            statement.setString(12, userID);
+            
+            statement.executeUpdate();
+            simpanStatus = true;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return simpanStatus;
+    }
+    
 }

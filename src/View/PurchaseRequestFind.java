@@ -7,9 +7,9 @@
 package View;
 
 import Bean.PurchaseRequestBean;
-import Controller.PurchaseRequestFindTableModel;
-import Controller.PurchaseRequestTableModel;
-import Controller.purchaseRequestDAO;
+//import Controller.PurchaseRequestFindTableModel;
+//import Controller.PurchaseRequestTableModel;
+//import Controller.purchaseRequestDAO;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Elifelia
  */
 public class PurchaseRequestFind extends javax.swing.JFrame {
-private PurchaseRequestFindTableModel model;
+//private PurchaseRequestFindTableModel model;
 
     /**
      * Creates new form PurchaseRequestSearch
@@ -70,7 +70,6 @@ private PurchaseRequestFindTableModel model;
         setTitle("Purchase Request Finder");
 
         PurchaseRequestBean prb = new PurchaseRequestBean();
-        jTable1.setModel(model = new Controller.PurchaseRequestFindTableModel());
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("Choose");

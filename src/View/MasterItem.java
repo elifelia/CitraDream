@@ -6,8 +6,14 @@
 
 package View;
 
+import Bean.DatabaseConnection;
 import Bean.ItemBean;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,7 +25,10 @@ public class MasterItem extends javax.swing.JFrame {
      * Creates new form MasterItem
      */
     public MasterItem() {
+        
         initComponents();
+        fillComboCat();
+        fillComboMeasure();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/icon.png")));
     }
 
@@ -64,9 +73,12 @@ public class MasterItem extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel4.setText("Measure Unit");
 
-        measureComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        measureComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                measureComboBoxActionPerformed(evt);
+            }
+        });
 
-        categoryComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         categoryComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 categoryComboBoxActionPerformed(evt);
@@ -93,6 +105,11 @@ public class MasterItem extends javax.swing.JFrame {
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/corner.png"))); // NOI18N
 
         jButton1.setText("View");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -200,12 +217,60 @@ public class MasterItem extends javax.swing.JFrame {
         ib.addItem(itemIDField.getText(), itemNameField.getText(),
                 categoryComboBox.getSelectedItem().toString(),
                 measureComboBox.getSelectedItem().toString());
+        JOptionPane.showMessageDialog(null, "Item has added successfully");
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void categoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_categoryComboBoxActionPerformed
 
+    private void measureComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_measureComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_measureComboBoxActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        TableItem tc = new TableItem();
+        tc.setVisible(true);
+        tc.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+        Connection con;
+        PreparedStatement pst;
+        ResultSet rs;
+        private void fillComboCat(){
+        try {
+        DatabaseConnection db = new DatabaseConnection();
+        String query ="SELECT category_id FROM hcdy_itemcat";
+        con = db.getConnection();
+        pst = con.prepareStatement(query);
+        rs = pst.executeQuery();
+        
+            while (rs.next()) {                
+                String category = rs.getString("category_id");
+                categoryComboBox.addItem(category);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+        
+        private void fillComboMeasure(){
+        try {
+        DatabaseConnection db = new DatabaseConnection();
+        String query ="SELECT measureUnit_id FROM hcdy_measureunit";
+        con = db.getConnection();
+        pst = con.prepareStatement(query);
+        rs = pst.executeQuery();
+        
+            while (rs.next()) {                
+                String measure = rs.getString("measureUnit_id");
+                measureComboBox.addItem(measure);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */
