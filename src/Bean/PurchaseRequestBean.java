@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 import java.util.logging.Level;
@@ -24,17 +25,12 @@ import javax.swing.JOptionPane;
  */
 public class PurchaseRequestBean {
 
-    private String pr_number;
+    private String pr_number; 
     private String dept_id;
     private Date req_date;
     private String remarks_pr;
     private Date date;
-    private String item_id;
-    private String measureUnit_id;
-    private Float QtyRequest;
-    private String remarks_item;
-    private String category_id;
-    private String status;
+    private Boolean status;
     Boolean statusSave;
 
     Connection connection;
@@ -79,38 +75,6 @@ public class PurchaseRequestBean {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public String getItem_id() {
-        return item_id;
-    }
-
-    public void setItem_id(String item_id) {
-        this.item_id = item_id;
-    }
-
-    public String getMeasureUnit_id() {
-        return measureUnit_id;
-    }
-
-    public void setMeasureUnit_id(String measureUnit_id) {
-        this.measureUnit_id = measureUnit_id;
-    }
-
-    public Float getQtyRequest() {
-        return QtyRequest;
-    }
-
-    public void setQtyRequest(Float QtyRequest) {
-        this.QtyRequest = QtyRequest;
-    }
-
-    public String getRemarks_item() {
-        return remarks_item;
-    }
-
-    public void setRemarks_item(String remarks_item) {
-        this.remarks_item = remarks_item;
     }
 
     public Boolean searchProduct(String itemName) {
@@ -167,29 +131,7 @@ public class PurchaseRequestBean {
         return pr;
     }
     
-    public Boolean addPRdetail(String pr_number, String item_id , String category_id, String measureUnit_id,
-            Float qtyRequest, String remarks_item) {
-        Boolean pr = false;
-        try {
-            DatabaseConnection db = new DatabaseConnection();
-            String querydet = "INSERT INTO hcdy_purchasereqdetail VALUES (?,?,?,?,?,?)";
-            PreparedStatement st2 = db.getConnection().prepareStatement(querydet);
-            st2.setString(1, pr_number);
-            st2.setString(2, item_id);
-            st2.setString(3, category_id);
-            st2.setString(4, measureUnit_id);
-            st2.setFloat(5, qtyRequest);
-            st2.setString(6, remarks_item);
-            st2.executeUpdate();
-
-            pr = true;
-        } catch (SQLException ex) {
-//            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex);
-            JOptionPane.showMessageDialog(null, "Data isn't complete/ Wrong format");
-        }
-        return pr;
-    }
+    
 
     public PurchaseRequestBean cariPR(String pr) {
         PurchaseRequestBean prb = new PurchaseRequestBean();
@@ -204,7 +146,10 @@ public class PurchaseRequestBean {
 
                 prb.setPr_number(rs.getString("PR_number"));
                 prb.setDept_id(rs.getString("department_id"));
-                prb.setDate(rs.getDate("Request_date"));
+                prb.setDate(rs.getDate("date"));
+                prb.setStatus(rs.getBoolean("status"));
+                prb.setReq_date(rs.getDate("Request_date"));
+                prb.setRemarks_pr(rs.getString("remarks_PR"));
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -213,31 +158,7 @@ public class PurchaseRequestBean {
         return prb;
     }
     
-    public PurchaseRequestBean cariPRdetail(String pr) {
-        PurchaseRequestBean prb = new PurchaseRequestBean();
-        try {
-            DatabaseConnection db = new DatabaseConnection();
-
-            Statement st = db.getConnection().createStatement();
-            String query = "SELECT * FROM hcdy_purchasereqdetail WHERE PR_number = '" + pr + "'";
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-
-                prb.setPr_number(rs.getString("PR_Number"));
-                prb.setItem_id(rs.getString("item_id"));
-                prb.setCategory_id(rs.getString("category_id"));
-                prb.setMeasureUnit_id(rs.getString("measureUnit_id"));
-                prb.setQtyRequest(rs.getFloat("QtyRequest"));
-                prb.setRemarks_item(rs.getString("remarks_item"));
-                
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex);
-
-        }
-        return prb;
-    }
+    
 
     public Boolean updatePR(String pr_number, String dept_id, Date req_date,
             String remarks_pr, Date date, String status) {
@@ -278,25 +199,60 @@ public class PurchaseRequestBean {
 
     public static void main(String[] args) {
         PurchaseRequestBean pr = new PurchaseRequestBean();
-        pr.addPR("001", "HK", new java.sql.Date(2015, 7, 7), "-", new java.sql.Date(2015, 7, 7),"");
-        pr.addPRdetail("001", "001", "item_001", "ltr", new Float(3), "-");
-        pr.addPRdetail("001", "002", "item_002", "pcs", new Float(2), "-");
+//        pr.addPR("001", "HK", new java.sql.Date(2015, 7, 7), "-", new java.sql.Date(2015, 7, 7),"");
+//        pr.addPRdetail("001", "001", "item_001", "ltr", new Float(3), "-");
+//        pr.addPRdetail("001", "002", "item_002", "pcs", new Float(2), "-");
     }
 
-    public String getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
-    public String getCategory_id() {
-        return category_id;
-    }
-
-    public void setCategory_id(String category_id) {
-        this.category_id = category_id;
+    
+    public String setPRNumber(String department_id) {
+        DatabaseConnection db = new DatabaseConnection();
+        String id = null;
+        try {
+            int num = 0;
+            String query = "select count(pr_number) from hcdy_purchasereq where department_id='"+department_id+"'";
+            Statement st = db.getConnection().createStatement();
+            java.sql.ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                num = Integer.parseInt(rs.getString(1));
+            }
+            num++;
+            
+            SimpleDateFormat format = new SimpleDateFormat("YYYY/MM");
+            Date date = new Date();
+            switch (department_id) {
+                case "POMEC":
+                    id = "PR-"+num+"/"+format.format(date)+"/PM";
+                    break;
+                case "FO":
+                    id = "PR-"+num+"/"+format.format(date)+"/FO";
+                    break;
+                case "HK":
+                    id = "PR-"+num+"/"+format.format(date)+"/HK";
+                    break;
+                case "ACCT":
+                    id = "PR-"+num+"/"+format.format(date)+"/AC";
+                    break;
+                case "S&M":
+                    id = "PR-"+num+"/"+format.format(date)+"/SM";
+                    break;
+                case "A&G":
+                    id = "PR-"+num+"/"+format.format(date)+"/AG";
+                    break;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
     }
 
 }

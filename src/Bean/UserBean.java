@@ -29,6 +29,7 @@ public class UserBean {
     private String dept_id;
     private Boolean PurchaseReq;
     private Boolean PurchaseReqView;
+    private Boolean PurchaseReqFinal;
     private Boolean PurchaseOrd;
     private Boolean PurchaseOrdView;
     private Boolean Receiving;
@@ -68,6 +69,28 @@ public class UserBean {
         }
         return ub;
     }
+    
+    public UserBean finalPR(String user){
+        UserBean ub = new UserBean();
+        DatabaseConnection db = new DatabaseConnection();
+        try {
+
+            Statement statement = db.getConnection().createStatement();
+            String query = "SELECT * FROM hcdy_userdata WHERE user_name ='" + userID + "'";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                ub.setMasterData(resultSet.getBoolean("bool_pfFinal"));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+//            JOptionPane.showMessageDialog(null, "Data isn't complete/ Wrong format");
+        }
+        return ub;
+
+    }
 
     public Boolean login(UserBean ub) {
         return ub.getUserID() != null;
@@ -89,6 +112,7 @@ public class UserBean {
                 ub.setDept_id(resultSet.getString("dept_id"));
                 ub.setPurchaseReq(resultSet.getBoolean("bool_pfForm"));
                 ub.setPurchaseReqView(resultSet.getBoolean("bool_pfView"));
+                ub.setPurchaseReqFinal(resultSet.getBoolean("bool_pfFinal"));
                 ub.setPurchaseOrd(resultSet.getBoolean("bool_poForm"));
                 ub.setPurchaseOrdView(resultSet.getBoolean("bool_poView"));
                 ub.setPurchaseOrdInactive(resultSet.getBoolean("bool_poInactive"));
@@ -104,12 +128,13 @@ public class UserBean {
         return ub;
     }
 
-    public Boolean simpanUser(String userID, String user, String pass, String deptID, Boolean prf, Boolean prv, Boolean pof,
+    public Boolean simpanUser(String userID, String user, String pass, String deptID, 
+            Boolean prf, Boolean prv, Boolean prFinal, Boolean pof,
             Boolean pov, Boolean poi, Boolean rrf, Boolean rrv, Boolean master) {
         boolean simpanStatus = false;
         try {
             DatabaseConnection db = new DatabaseConnection();
-            String query = "INSERT INTO hcdy_userdata VALUES (?,?,?,?,?,?,?,?,?,?,?,?) ";
+            String query = "INSERT INTO hcdy_userdata VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?) ";
             PreparedStatement statement = db.getConnection().prepareStatement(query);
             statement.setString(1, userID);
             statement.setString(2, user);
@@ -117,12 +142,13 @@ public class UserBean {
             statement.setString(4, deptID);
             statement.setBoolean(5, prf);
             statement.setBoolean(6, prv);
-            statement.setBoolean(7, pof);
-            statement.setBoolean(8, pov);
-            statement.setBoolean(9, poi);
-            statement.setBoolean(10, rrf);
-            statement.setBoolean(11, rrv);
-            statement.setBoolean(12, poi);
+            statement.setBoolean(7, prFinal);
+            statement.setBoolean(8, pof);
+            statement.setBoolean(9, pov);
+            statement.setBoolean(10, poi);
+            statement.setBoolean(11, rrf);
+            statement.setBoolean(12, rrv);
+            statement.setBoolean(13, poi);
             statement.executeUpdate();
             simpanStatus = true;
 
@@ -277,13 +303,13 @@ public class UserBean {
     }
     
     public Boolean updateUser(String userID, String user, String pass, 
-            String deptID, Boolean prf, Boolean prv, Boolean pof,
+            String deptID, Boolean prf, Boolean prv, Boolean prFinal, Boolean pof,
             Boolean pov, Boolean poi, Boolean rrf, Boolean rrv, Boolean master) {
         boolean simpanStatus = false;
         try {
             DatabaseConnection db = new DatabaseConnection();
             String query = "UPDATE hcdy_userdata SET user_name=?, user_pass=?, dept_id=?, bool_pfForm=?,"
-                    + "bool_pfView=?, bool_poForm=?, bool_poView=?, bool_poInactive=?,"
+                    + "bool_pfView=?, bool_pfFinal=?, bool_poForm=?, bool_poView=?, bool_poInactive=?,"
                     + "bool_rrView=?, bool_rrForm=?, bool_masterData=? WHERE user_id=?";
             PreparedStatement statement = db.getConnection().prepareStatement(query);
             
@@ -292,13 +318,14 @@ public class UserBean {
             statement.setString(3, deptID);
             statement.setBoolean(4, prf);
             statement.setBoolean(5, prv);
-            statement.setBoolean(6, pof);
-            statement.setBoolean(7, pov);
-            statement.setBoolean(8, poi);
-            statement.setBoolean(9, rrv);
-            statement.setBoolean(10, rrf);
-            statement.setBoolean(11, master);
-            statement.setString(12, userID);
+            statement.setBoolean(6, prFinal);
+            statement.setBoolean(7, pof);
+            statement.setBoolean(8, pov);
+            statement.setBoolean(9, poi);
+            statement.setBoolean(10, rrv);
+            statement.setBoolean(11, rrf);
+            statement.setBoolean(12, master);
+            statement.setString(13, userID);
             
             statement.executeUpdate();
             simpanStatus = true;
@@ -307,6 +334,14 @@ public class UserBean {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return simpanStatus;
+    }
+
+    public Boolean getPurchaseReqFinal() {
+        return PurchaseReqFinal;
+    }
+
+    public void setPurchaseReqFinal(Boolean PurchaseReqFinal) {
+        this.PurchaseReqFinal = PurchaseReqFinal;
     }
     
 }

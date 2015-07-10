@@ -87,6 +87,7 @@
                           <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="prf_check" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="prv_check" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="prfinal_check" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -214,7 +215,10 @@
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="poi_check" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="poi_check" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="prfinal_check" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="save_button" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -442,6 +446,12 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="reset_button1ActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="prfinal_check">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Purchase Request Finalization"/>
+        <Property name="toolTipText" type="java.lang.String" value="user can access the PR-View Form"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

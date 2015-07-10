@@ -85,6 +85,7 @@ public class UserAdd extends javax.swing.JFrame {
         rfv_check = new javax.swing.JCheckBox();
         password = new javax.swing.JLabel();
         reset_button1 = new javax.swing.JButton();
+        prfinal_check = new javax.swing.JCheckBox();
 
         jTextField1.setText("jTextField1");
 
@@ -192,6 +193,9 @@ public class UserAdd extends javax.swing.JFrame {
             }
         });
 
+        prfinal_check.setText("Purchase Request Finalization");
+        prfinal_check.setToolTipText("user can access the PR-View Form");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -238,7 +242,8 @@ public class UserAdd extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
                             .addComponent(prf_check)
-                            .addComponent(prv_check))
+                            .addComponent(prv_check)
+                            .addComponent(prfinal_check))
                         .addGap(43, 43, 43)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -337,7 +342,9 @@ public class UserAdd extends javax.swing.JFrame {
                                 .addComponent(prv_check)
                                 .addComponent(pov_check)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(poi_check)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(poi_check)
+                            .addComponent(prfinal_check))
                         .addGap(48, 48, 48)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(save_button)
@@ -360,7 +367,7 @@ public class UserAdd extends javax.swing.JFrame {
 //        pre_check.setSelected(false);
         prf_check.setSelected(false);
         prv_check.setSelected(false);
-//        poa_check.setSelected(false);
+        prfinal_check.setSelected(false);
         pov_check.setSelected(false);
         pof_check.setSelected(false);
         rf_check.setSelected(false);
@@ -374,6 +381,7 @@ public class UserAdd extends javax.swing.JFrame {
             ub.simpanUser(ub.setUSERid(dept_combo.getSelectedItem().toString()), username_text.getText(),
                     pass_text.getText(), dept_combo.getSelectedItem().toString(),
                     prf_check.isSelected(), prv_check.isSelected(),
+                    prfinal_check.isSelected(),
                     pof_check.isSelected(), pov_check.isSelected(),
                     poi_check.isSelected(), rf_check.isSelected(),
                     rfv_check.isSelected(), md_check.isSelected());
@@ -388,6 +396,7 @@ public class UserAdd extends javax.swing.JFrame {
             rfv_check.setSelected(false);
             prf_check.setSelected(false);
             prv_check.setSelected(false);
+            prfinal_check.setSelected(false);
             pov_check.setSelected(false);
             pof_check.setSelected(false);
             rf_check.setSelected(false);
@@ -531,6 +540,7 @@ public class UserAdd extends javax.swing.JFrame {
     private javax.swing.JCheckBox poi_check;
     private javax.swing.JCheckBox pov_check;
     private javax.swing.JCheckBox prf_check;
+    private javax.swing.JCheckBox prfinal_check;
     private javax.swing.JCheckBox prv_check;
     private javax.swing.JButton reset_button;
     private javax.swing.JButton reset_button1;
