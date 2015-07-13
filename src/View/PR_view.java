@@ -46,6 +46,10 @@ public final class PR_view extends javax.swing.JFrame {
         showMeasure();
 //        DBtoTableItem();
         findField.getDocument().addDocumentListener(new PR_view.FindListener());
+        UserBean ub = new UserBean();
+        UserBean temp;
+        temp = ub.finalPR(null);
+        finalCheck.setEnabled(rootPaneCheckingEnabled);
 
     }
 
@@ -65,7 +69,7 @@ public final class PR_view extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
         dept_id = new javax.swing.JLabel();
         date = new com.toedter.calendar.JDateChooser();
         jSeparator1 = new javax.swing.JSeparator();
@@ -120,11 +124,11 @@ public final class PR_view extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Request Date");
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton3.setText("Save");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        saveButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                saveButtonActionPerformed(evt);
             }
         });
 
@@ -345,7 +349,7 @@ public final class PR_view extends javax.swing.JFrame {
                                 .addComponent(finalCheck))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(347, 347, 347)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(379, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -429,7 +433,7 @@ public final class PR_view extends javax.swing.JFrame {
                                 .addComponent(jLabel19))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(257, 257, 257)
-                                .addComponent(jButton3)
+                                .addComponent(saveButton)
                                 .addContainerGap(97, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(294, 294, 294)
@@ -479,9 +483,10 @@ public final class PR_view extends javax.swing.JFrame {
         remarksdetail.setText("");
     }//GEN-LAST:event_resetButtonActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         PurchaseRequestBean prb = new PurchaseRequestBean();
-        if(prb.addPR(prNo.getText(), dept_id.getText(), reqDate.getDate(), remarksPR.getText(), date.getDate(), null)){
+        if(prb.updatePR(prNo.getText(), dept_id.getText(), reqDate.getDate(), 
+                remarksPR.getText(), date.getDate(), false, true)){
         JOptionPane.showMessageDialog(null, "Purchase Request successfully added/edited");
         prNo.setText("");
         dept_id.setText("");
@@ -489,7 +494,7 @@ public final class PR_view extends javax.swing.JFrame {
         reqDate.setDate(null);
         remarksPR.setText("");
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_saveButtonActionPerformed
 
     private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
         // TODO add your handling code here:
@@ -518,7 +523,7 @@ public final class PR_view extends javax.swing.JFrame {
         int row = itemTable.getSelectedRow();
         temp = pr.cariPRdetail(itemTable.getModel().getValueAt(row, 0).toString(), itemTable.getModel().getValueAt(row, 1).toString());
         itemdesc.setText(temp.getItem_id());
-        qtyrequest.setText(temp.getQtyRequest().toString());
+        qtyrequest.setText(String.valueOf(temp.getQtyRequest()));
         measure.setText(temp.getMeasureUnit_id());
         remarksdetail.setText(temp.getRemarks_item());
     }//GEN-LAST:event_itemTableMouseClicked
@@ -642,7 +647,6 @@ public final class PR_view extends javax.swing.JFrame {
     private javax.swing.JButton itemLookup;
     private javax.swing.JTable itemTable;
     private javax.swing.JTextField itemdesc;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -673,5 +677,6 @@ public final class PR_view extends javax.swing.JFrame {
     private javax.swing.JTextField remarksdetail;
     private com.toedter.calendar.JDateChooser reqDate;
     private javax.swing.JButton resetButton;
+    private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -23,8 +23,8 @@ public class ReceivingBean {
     private String po_reference;
     private Date receivingDate;
     private String item_ref;
-    private Float qtyReceived;
-    private Float qtyOnHold;
+    private double qtyReceived;
+    private double qtyOnHold;
 
     Connection connection;
     ResultSet resultSet;
@@ -62,24 +62,24 @@ public class ReceivingBean {
         this.item_ref = item_ref;
     }
 
-    public Float getQtyReceived() {
+    public double getQtyReceived() {
         return qtyReceived;
     }
 
-    public void setQtyReceived(Float qtyReceived) {
+    public void setQtyReceived(double qtyReceived) {
         this.qtyReceived = qtyReceived;
     }
 
-    public Float getQtyOnHold() {
+    public double getQtyOnHold() {
         return qtyOnHold;
     }
 
-    public void setQtyOnHold(Float qtyOnHold) {
+    public void setQtyOnHold(double qtyOnHold) {
         this.qtyOnHold = qtyOnHold;
     }
     
     public Boolean addPO(String receipt_number, String po_reference, Date receivingDate, String item_ref, 
-            Float qtyReceived, Float qtyOnHold){
+            double qtyReceived, double qtyOnHold){
         Boolean pr = false;
         try {
             DatabaseConnection db = new DatabaseConnection();
@@ -95,8 +95,8 @@ public class ReceivingBean {
             st2.setString(1, receipt_number);
             st2.setString(2, po_reference);
             st2.setString(3, item_ref);
-            st2.setFloat(4, qtyReceived);
-            st2.setFloat(4, qtyOnHold);
+            st2.setDouble(4, qtyReceived);
+            st2.setDouble(4, qtyOnHold);
             pr = true;
         } catch (SQLException ex) {
 //            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -129,7 +129,7 @@ public class ReceivingBean {
     }
     
     public Boolean updateRR(String receipt_number, String po_reference, Date receivingDate, String item_ref, 
-            Float qtyReceived, Float qtyOnHold) {
+            double qtyReceived, double qtyOnHold) {
         Boolean rr = false;
         try {
             DatabaseConnection db = new DatabaseConnection();

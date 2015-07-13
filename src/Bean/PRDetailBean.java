@@ -21,7 +21,7 @@ public class PRDetailBean {
     private String pr_number; //
     private String item_id; //
     private String measureUnit_id; //
-    private Float QtyRequest; //
+    private double QtyRequest; //
     private String remarks_item; //
     private String category_id; //
 
@@ -49,11 +49,11 @@ public class PRDetailBean {
         this.measureUnit_id = measureUnit_id;
     }
 
-    public Float getQtyRequest() {
+    public double getQtyRequest() {
         return QtyRequest;
     }
 
-    public void setQtyRequest(Float QtyRequest) {
+    public void setQtyRequest(double QtyRequest) {
         this.QtyRequest = QtyRequest;
     }
 
@@ -74,7 +74,7 @@ public class PRDetailBean {
     }
  
     public Boolean addPRdetail(String pr_number, String item_id , String category_id, String measureUnit_id,
-            Float qtyRequest, String remarks_item) {
+            double qtyRequest, String remarks_item) {
         Boolean pr = false;
         try {
             DatabaseConnection db = new DatabaseConnection();
@@ -84,7 +84,7 @@ public class PRDetailBean {
             st2.setString(2, item_id);
             st2.setString(3, category_id);
             st2.setString(4, measureUnit_id);
-            st2.setFloat(5, qtyRequest);
+            st2.setDouble(5, qtyRequest);
             st2.setString(6, remarks_item);
             st2.executeUpdate();
 
@@ -112,7 +112,7 @@ public class PRDetailBean {
                 prb.setItem_id(rs.getString("item_id"));
                 prb.setCategory_id(rs.getString("category_id"));
                 prb.setMeasureUnit_id(rs.getString("measureUnit_id"));
-                prb.setQtyRequest(rs.getFloat("QtyRequest"));
+                prb.setQtyRequest(rs.getDouble("QtyRequest"));
                 prb.setRemarks_item(rs.getString("remarks_item"));
                 
             }

@@ -40,6 +40,7 @@ public class UserAdd extends javax.swing.JFrame {
         fillCombo();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/icon.png")));
         passConf_check.getDocument().addDocumentListener(new PassListener());
+        
     }
 
     /**

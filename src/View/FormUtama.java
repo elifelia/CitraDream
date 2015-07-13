@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
  * @author Elifelia
  */
 public class FormUtama extends javax.swing.JFrame {
+    UserBean temp;
 
     /**
      * Creates new form FormUtama
@@ -338,7 +339,7 @@ public class FormUtama extends javax.swing.JFrame {
 
     private void purchaseRequestFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseRequestFormActionPerformed
         // TODO add your handling code here:
-        PurchaseRequest pr  = new PurchaseRequest();
+        PurchaseRequest pr  = new PurchaseRequest(temp.getDept_id());
         pr.setVisible(true);
         pr.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_purchaseRequestFormActionPerformed
@@ -410,7 +411,7 @@ public class FormUtama extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
         UserBean ub  = new UserBean();
-        UserBean temp;
+        
         temp = ub.cariUser(usernameField.getText(), passwordField.getText());
         if (ub.login(temp)) {
             JOptionPane.showMessageDialog(null, "Login Success!");

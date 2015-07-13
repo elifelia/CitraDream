@@ -150,7 +150,7 @@ public class TableItem extends javax.swing.JFrame {
         jLabel9.setText("FORM");
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel10.setText("User Data Edit");
+        jLabel10.setText("Item Data");
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/corner.png"))); // NOI18N
 
@@ -291,7 +291,7 @@ public class TableItem extends javax.swing.JFrame {
         catID.setSelectedItem(temp.getCategoryID());
         measure.setSelectedItem(temp.getMeasure());
         desc.setText(temp.getItemDesc());
-        qty.setText(temp.getQtyOnHand().toString());
+        qty.setText(String.valueOf(temp.getQtyOnHand()));
     }//GEN-LAST:event_itemTableMouseClicked
 
     /**
@@ -361,13 +361,13 @@ public class TableItem extends javax.swing.JFrame {
         try {
         DatabaseConnection db = new DatabaseConnection();
         String query ="SELECT measureUnit_id FROM hcdy_measureunit";
-        conn = db.getConnection();
-        pst = conn.prepareStatement(query);
-        rs = pst.executeQuery();
+        Connection conn = db.getConnection();
+        PreparedStatement pst = conn.prepareStatement(query);
+        ResultSet rs = pst.executeQuery();
         
             while (rs.next()) {                
                 String dept = rs.getString("measureUnit_id");
-                catID.addItem(dept);
+                measure.addItem(dept);
             }
         } catch (SQLException ex) {
             System.out.println(ex);

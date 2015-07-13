@@ -23,7 +23,7 @@ public class ItemBean {
     private String categoryID;
     private String measure;
     private String itemDesc;
-    private Float qtyOnHand;
+    private double qtyOnHand;
     Connection connection;
     ResultSet resultSet;
     Statement statement;
@@ -91,30 +91,7 @@ public class ItemBean {
         return cat;
     }
     
-    public String[] ambilMeasure(){
-        String[] measureArray = null;
-        ItemBean ib = new ItemBean();
-        try {
-            DatabaseConnection db = new DatabaseConnection();
-            statement = db.getConnection().createStatement();
-            String query = "SELECT measureunit_name FROM hcdy_measureunit ";
-            resultSet = statement.executeQuery(query);
-            int i =0;            
-            while (resultSet.next()) {
-                            
-                if (null != resultSet) {
-                    String measure = resultSet.getString("measure");
-                    measureArray[i++]= measure;
-                }
-
-            }
-
-        } catch (SQLException ex) {
-//            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex);
-        }
-        return measureArray;
-    }
+    
     public ItemBean cariItem(String item) {
         ItemBean ib = new ItemBean();
 //        ub = null;
@@ -133,7 +110,7 @@ public class ItemBean {
                     ib.setCategoryID(resultSet.getString("category_id"));
                     ib.setMeasure(resultSet.getString("measureUnit_id"));
                     ib.setItemDesc(resultSet.getString("item_desc"));
-                    ib.setQtyOnHand(resultSet.getFloat("QtyOnHand"));
+                    ib.setQtyOnHand(resultSet.getDouble("QtyOnHand"));
                     
                 }
 
@@ -145,7 +122,37 @@ public class ItemBean {
         }
         return ib;
     }
+    
+     public ItemBean cariItemID(String id) {
+        ItemBean ib = new ItemBean();
+//        ub = null;
+        try {
+            DatabaseConnection db = new DatabaseConnection();
 
+            Statement statement = db.getConnection().createStatement();
+            String query = "SELECT * FROM hcdy_itemmaster WHERE item_id = '" + id + "'";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+
+                if (null != resultSet) {
+                    ib.setItemID(resultSet.getString("item_id"));
+                    ib.setItemName(resultSet.getString("item_name"));
+                    ib.setCategoryID(resultSet.getString("category_id"));
+                    ib.setMeasure(resultSet.getString("measureUnit_id"));
+                    ib.setItemDesc(resultSet.getString("item_desc"));
+                    ib.setQtyOnHand(resultSet.getDouble("QtyOnHand"));
+                    
+                }
+
+            }
+
+        } catch (SQLException ex) {
+//            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+        }
+        return ib;
+    }
     public String getItemDesc() {
         return itemDesc;
     }
@@ -154,11 +161,11 @@ public class ItemBean {
         this.itemDesc = itemDesc;
     }
 
-    public Float getQtyOnHand() {
+    public double getQtyOnHand() {
         return qtyOnHand;
     }
 
-    public void setQtyOnHand(Float qtyOnHand) {
+    public void setQtyOnHand(double qtyOnHand) {
         this.qtyOnHand = qtyOnHand;
     }
 
