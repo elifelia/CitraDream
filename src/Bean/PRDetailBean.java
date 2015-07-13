@@ -123,4 +123,30 @@ public class PRDetailBean {
         return prb;
     }
     
+    public PRDetailBean tampilPRDetail(String pr) {
+        PRDetailBean prb = new PRDetailBean();
+        try {
+            DatabaseConnection db = new DatabaseConnection();
+
+            Statement st = db.getConnection().createStatement();
+            String query = "SELECT * FROM hcdy_purchasereqdetail WHERE PR_number = '" + pr + "' ";
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+
+                prb.setPr_number(rs.getString("PR_Number"));
+                prb.setItem_id(rs.getString("item_id"));
+                prb.setCategory_id(rs.getString("category_id"));
+                prb.setMeasureUnit_id(rs.getString("measureUnit_id"));
+                prb.setQtyRequest(rs.getDouble("QtyRequest"));
+                prb.setRemarks_item(rs.getString("remarks_item"));
+                
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+
+        }
+        return prb;
+    }
+    
 }

@@ -21,13 +21,13 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Elifelia
  */
-public class PurchaseRequestFind extends javax.swing.JFrame {
+public class PO_LookupPR extends javax.swing.JFrame {
 //private PurchaseRequestFindTableModel model;
 
     /**
      * Creates new form PurchaseRequestSearch
      */
-    public PurchaseRequestFind() {
+    public PO_LookupPR() {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/icon.png")));
 //        addWindowListener(new WindowAdapter() {
@@ -186,20 +186,20 @@ public class PurchaseRequestFind extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PurchaseRequestFind.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PO_LookupPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PurchaseRequestFind.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PO_LookupPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PurchaseRequestFind.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PO_LookupPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PurchaseRequestFind.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PO_LookupPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PurchaseRequestFind().setVisible(true);
+                new PO_LookupPR().setVisible(true);
             }
         });
     }

@@ -9,20 +9,19 @@ package View;
 //import Controller.citraDreamTableModel;
 //import Controller.purchaseRequestDAO;
 import Bean.DatabaseConnection;
+import Bean.ItemBean;
 import Bean.PRDetailBean;
 import Bean.PurchaseRequestBean;
-import Bean.UserBean;
 import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.event.ListSelectionEvent;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -42,15 +41,7 @@ public final class PR_view extends javax.swing.JFrame {
     public PR_view() {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/icon.png")));
-        DBtoTablePR();
-        showMeasure();
-//        DBtoTableItem();
-        findField.getDocument().addDocumentListener(new PR_view.FindListener());
-        UserBean ub = new UserBean();
-        UserBean temp;
-        temp = ub.finalPR(null);
-        finalCheck.setEnabled(rootPaneCheckingEnabled);
-
+        
     }
 
     /**
@@ -70,7 +61,6 @@ public final class PR_view extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         saveButton = new javax.swing.JButton();
-        dept_id = new javax.swing.JLabel();
         date = new com.toedter.calendar.JDateChooser();
         jSeparator1 = new javax.swing.JSeparator();
         qtyrequest = new javax.swing.JTextField();
@@ -92,17 +82,15 @@ public final class PR_view extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         itemLookup = new javax.swing.JButton();
-        measure = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        PRtable = new javax.swing.JTable();
-        findField = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         itemTable = new javax.swing.JTable();
         prNo = new javax.swing.JTextField();
         addButton = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
-        category = new javax.swing.JLabel();
-        finalCheck = new javax.swing.JCheckBox();
+        category = new javax.swing.JTextField();
+        measure = new javax.swing.JTextField();
+        dept_id = new javax.swing.JTextField();
+        lookup = new javax.swing.JButton();
 
         jLabel6.setText("jLabel6");
 
@@ -131,8 +119,6 @@ public final class PR_view extends javax.swing.JFrame {
                 saveButtonActionPerformed(evt);
             }
         });
-
-        dept_id.setText("jLabel7");
 
         qtyrequest.setToolTipText("insert Requested item's Quantity here");
 
@@ -187,32 +173,6 @@ public final class PR_view extends javax.swing.JFrame {
             }
         });
 
-        measure.setText("jLabel8");
-
-        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jScrollPane1MouseClicked(evt);
-            }
-        });
-
-        PRtable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        PRtable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PRtableMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(PRtable);
-
         itemTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -245,10 +205,20 @@ public final class PR_view extends javax.swing.JFrame {
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jLabel18.setText("Category");
 
-        category.setText("jLabel8");
+        category.setToolTipText("insert Requested item's Quantity here");
+        category.setEnabled(false);
 
-        finalCheck.setText("Final PR");
-        finalCheck.setEnabled(false);
+        measure.setToolTipText("insert Requested item's Quantity here");
+        measure.setEnabled(false);
+
+        dept_id.setEnabled(false);
+
+        lookup.setText("...");
+        lookup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lookupActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -257,33 +227,34 @@ public final class PR_view extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(97, 97, 97)
+                        .addGap(71, 71, 71)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(prNo, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
-                                .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(74, 74, 74)
+                                .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(prNo, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lookup, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(96, 96, 96)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dept_id)
-                            .addComponent(reqDate, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(reqDate, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dept_id, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 739, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel16)
-                                    .addComponent(measure, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(32, 32, 32)
+                                .addGap(459, 459, 459)
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel17)
                                     .addComponent(remarksdetail, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -296,27 +267,19 @@ public final class PR_view extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 743, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(purchaseRequestLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel12)))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(purchaseRequestLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel12)
                         .addGap(53, 53, 53))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(findField, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(33, 33, 33))
                             .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -337,20 +300,24 @@ public final class PR_view extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(qtyrequest, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel14))
-                                .addGap(37, 37, 37)
+                                .addGap(28, 28, 28)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(measure, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel18)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(finalCheck))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(347, 347, 347)
-                                .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(379, Short.MAX_VALUE))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(347, 347, 347)
+                                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(255, 255, 255))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,84 +328,73 @@ public final class PR_view extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(purchaseRequestLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel12)))
-                .addGap(27, 27, 27)
-                .addComponent(findField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4)
+                    .addComponent(prNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dept_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lookup))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel5))
+                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(reqDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4)
-                            .addComponent(dept_id)
-                            .addComponent(prNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel5))
-                            .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(reqDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel13)
-                                    .addComponent(jLabel16)
-                                    .addComponent(jLabel17))
-                                .addGap(3, 3, 3))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel14)
-                                    .addComponent(jLabel18))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(remarksdetail)
-                            .addComponent(measure)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(itemdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(itemLookup)
-                                .addComponent(qtyrequest)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(34, 34, 34)
-                                        .addComponent(resetButton)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(addButton)))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(31, 31, 31)
-                                        .addComponent(jLabel10))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(14, 14, 14)
-                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(finalCheck)))
-                                .addGap(94, 94, 94)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel11))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel19))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(257, 257, 257)
-                                .addComponent(saveButton)
-                                .addContainerGap(97, Short.MAX_VALUE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(294, 294, 294)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel17))
+                        .addGap(3, 3, 3))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel18))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(remarksdetail)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(itemdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(itemLookup)
+                        .addComponent(qtyrequest)
                         .addComponent(category)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(measure)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(resetButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(addButton)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(jLabel10))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(94, 94, 94)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel19))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(257, 257, 257)
+                        .addComponent(saveButton)
+                        .addContainerGap())))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -457,22 +413,19 @@ public final class PR_view extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void showMeasure() {
-        try {
-            DatabaseConnection db = new DatabaseConnection();
-            Statement statement;
-            statement = db.getConnection().createStatement();
-            String query = "SELECT measureUnit_id from hcdy_purchasereqdetail WHERE item_id ='" + itemdesc.getText() + "'";
-            statement.executeUpdate(query);
-            measure.setText(query);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(PR_view.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
+   
     private void itemLookupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemLookupActionPerformed
         PR_LookupItem itemLook = new PR_LookupItem();
+
+        itemLook.tableFind.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+            ItemBean ib = new ItemBean();
+            ItemBean temp;
+            itemdesc.setText(itemLook.tableFind.getValueAt(itemLook.tableFind.getSelectedRow(), 0).toString());
+            temp = ib.cariItemID(itemdesc.getText());
+            category.setText(temp.getCategoryID());
+            measure.setText(temp.getMeasure());
+
+        });
         itemLook.setVisible(true);
         itemLook.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_itemLookupActionPerformed
@@ -485,36 +438,19 @@ public final class PR_view extends javax.swing.JFrame {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         PurchaseRequestBean prb = new PurchaseRequestBean();
-        if(prb.updatePR(prNo.getText(), dept_id.getText(), reqDate.getDate(), 
-                remarksPR.getText(), date.getDate(), false, true)){
-        JOptionPane.showMessageDialog(null, "Purchase Request successfully added/edited");
-        prNo.setText("");
-        dept_id.setText("");
-        date.setDate(null);
-        reqDate.setDate(null);
-        remarksPR.setText("");
+        if (prb.updatePR(prNo.getText(), dept_id.getText(), null,
+                remarksPR.getText(), null, false, false)) {
+            JOptionPane.showMessageDialog(null, "Purchase Request successfully added/edited");
+            prNo.setText("");
+            dept_id.setText("");
+            date.setDate(null);
+            reqDate.setDate(null);
+            remarksPR.setText("");
+            dispose();
         }
+
     }//GEN-LAST:event_saveButtonActionPerformed
 
-    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jScrollPane1MouseClicked
-
-
-    private void PRtableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PRtableMouseClicked
-        // TODO add your handling code here:
-
-        PurchaseRequestBean pr = new PurchaseRequestBean();
-        PurchaseRequestBean temp;
-        int row = PRtable.getSelectedRow();
-        temp = pr.cariPR(PRtable.getModel().getValueAt(row, 0).toString());
-        prNo.setText(temp.getPr_number());
-        date.setDate(temp.getDate());
-        dept_id.setText(temp.getDept_id());
-        reqDate.setDate(temp.getReq_date());
-        remarksPR.setText(temp.getRemarks_pr());
-        DBtoTableItem();
-    }//GEN-LAST:event_PRtableMouseClicked
 
     private void itemTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemTableMouseClicked
         // TODO add your handling code here:
@@ -532,13 +468,38 @@ public final class PR_view extends javax.swing.JFrame {
         // TODO add your handling code here:
         PRDetailBean pr = new PRDetailBean();
         if (pr.addPRdetail(prNo.getText(), itemdesc.getText(), category.getText(),
-                measure.getText(), qtyrequest.getAlignmentX(), remarksdetail.getText())) {
+                measure.getText(), Double.parseDouble(qtyrequest.getText()), remarksdetail.getText())) {
             DBtoTableItem();
+            JOptionPane.showMessageDialog(null, "Item add succeded!");
             itemdesc.setText("");
             qtyrequest.setText("");
             remarksdetail.setText("");
+        } else {
+            Logger.getLogger(TableUser.class.getName()).log(Level.SEVERE, null, new SQLException());
         }
     }//GEN-LAST:event_addButtonActionPerformed
+
+    private void lookupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lookupActionPerformed
+        // TODO add your handling code here:
+        PRView_LookupPR PRLook = new PRView_LookupPR();
+
+        PRLook.tableFind.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+            PurchaseRequestBean pr = new PurchaseRequestBean();
+            PurchaseRequestBean temp;
+            prNo.setText(PRLook.tableFind.getValueAt(PRLook.tableFind.getSelectedRow(), 0).toString());
+            temp = pr.cariPR(prNo.getText());
+            date.setDate(temp.getDate());
+            reqDate.setDate(temp.getReq_date());
+            dept_id.setText(temp.getDept_id());
+            remarksPR.setText(temp.getRemarks_pr());
+//            PRDetailBean prd = new PRDetailBean();
+//            PRDetailBean temp2;
+//            temp2 = prd.tampilPRDetail(prNo.getText());
+            DBtoTableItem();
+        });
+        PRLook.setVisible(true);
+        PRLook.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_lookupActionPerformed
 
     /**
      * @param args the command line arguments
@@ -575,20 +536,6 @@ public final class PR_view extends javax.swing.JFrame {
         });
     }
 
-    public void DBtoTablePR() {
-        DatabaseConnection db = new DatabaseConnection();
-        try {
-
-            String query = "SELECT * FROM hcdy_purchasereq";
-            PreparedStatement pst = db.getConnection().prepareStatement(query);
-            ResultSet rs = pst.executeQuery();
-            PRtable.setModel(DbUtils.resultSetToTableModel(rs));
-            db.getConnection().close();
-        } catch (SQLException ex) {
-            Logger.getLogger(TableUser.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     public void DBtoTableItem() {
         DatabaseConnection db = new DatabaseConnection();
 
@@ -603,47 +550,17 @@ public final class PR_view extends javax.swing.JFrame {
         }
     }
 
-    public void findTable() {
-        try {
-            String query = "SELECT PR_Number, department_id,Request_date, status FROM hcdy_purchasereq"
-                    + " WHERE PR_Number LIKE '%" + findField.getText() + "%'";
-            pst = con.prepareStatement(query);
-            rs = pst.executeQuery();
-            PRtable.setModel(DbUtils.resultSetToTableModel(rs));
-        } catch (SQLException ex) {
-            Logger.getLogger(TableCategory.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private class FindListener implements DocumentListener {
-
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-            findTable();
-        }
-
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-            findTable();
-        }
-
-        @Override
-        public void changedUpdate(DocumentEvent e) {
-            findTable();
-        }
-    }
+   
+   
 
 //    private TableModel getModel() {
 //        return model;
 //    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable PRtable;
     private javax.swing.JButton addButton;
-    private javax.swing.JLabel category;
+    private javax.swing.JTextField category;
     private com.toedter.calendar.JDateChooser date;
-    private javax.swing.JLabel dept_id;
-    private javax.swing.JCheckBox finalCheck;
-    private javax.swing.JTextField findField;
+    private javax.swing.JTextField dept_id;
     private javax.swing.JButton itemLookup;
     private javax.swing.JTable itemTable;
     private javax.swing.JTextField itemdesc;
@@ -664,12 +581,12 @@ public final class PR_view extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JLabel measure;
+    private javax.swing.JButton lookup;
+    private javax.swing.JTextField measure;
     private javax.swing.JTextField prNo;
     private javax.swing.JLabel purchaseRequestLabel;
     private javax.swing.JTextField qtyrequest;
