@@ -98,6 +98,8 @@ public class TableUser extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         pfFinal_View = new javax.swing.JCheckBox();
+        fullname = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -192,6 +194,10 @@ public class TableUser extends javax.swing.JFrame {
 
         pfFinal_View.setText("Purchase Request Finallization");
 
+        user_id.setEnabled(false);
+
+        jLabel12.setText("Full Name");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -234,9 +240,12 @@ public class TableUser extends javax.swing.JFrame {
                                     .addComponent(username_field, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
                                     .addComponent(user_id))
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel5)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel12))
                                 .addGap(24, 24, 24)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(fullname)
                                     .addComponent(passconf)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(warn)
@@ -284,7 +293,10 @@ public class TableUser extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(user_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(user_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel12)
+                        .addComponent(fullname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(username_field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -338,6 +350,7 @@ public class TableUser extends javax.swing.JFrame {
         } else {
             UserBean ub = new UserBean();
             ub.updateUser(user_id.getText(), username_field.getText(),
+                    fullname.getText(),
                     new_pass.getText(), jComboBox1.getSelectedItem().toString(),
                     pfForm.isSelected(), pf_View.isSelected(),
                     pfFinal_View.isSelected(),
@@ -361,6 +374,7 @@ public class TableUser extends javax.swing.JFrame {
         int row = catTable.getSelectedRow();
         temp = ub.cariUsername(catTable.getModel().getValueAt(row, 0).toString());
         user_id.setText(temp.getUserID());
+        fullname.setText(temp.getFullname());
         username_field.setText(temp.getUser_name());
         pass.setText(temp.getPass());
         jComboBox1.setSelectedItem(temp.getDept_id());
@@ -501,10 +515,12 @@ public class TableUser extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable catTable;
     private javax.swing.JTextField findField;
+    private javax.swing.JTextField fullname;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

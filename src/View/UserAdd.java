@@ -87,6 +87,8 @@ public class UserAdd extends javax.swing.JFrame {
         password = new javax.swing.JLabel();
         reset_button1 = new javax.swing.JButton();
         prfinal_check = new javax.swing.JCheckBox();
+        jLabel15 = new javax.swing.JLabel();
+        fullname = new javax.swing.JTextField();
 
         jTextField1.setText("jTextField1");
 
@@ -197,6 +199,8 @@ public class UserAdd extends javax.swing.JFrame {
         prfinal_check.setText("Purchase Request Finalization");
         prfinal_check.setToolTipText("user can access the PR-View Form");
 
+        jLabel15.setText("Full Name");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -266,17 +270,23 @@ public class UserAdd extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(37, 37, 37)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
-                        .addGap(49, 49, 49)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(passConf_check)
-                            .addComponent(dept_combo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(username_text)
-                            .addComponent(pass_text, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                                .addComponent(fullname, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7))
+                                .addGap(49, 49, 49)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(passConf_check)
+                                    .addComponent(dept_combo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(username_text)
+                                    .addComponent(pass_text, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE))))
                         .addGap(18, 18, 18)
                         .addComponent(password)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -304,20 +314,29 @@ public class UserAdd extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(username_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pass_text)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passConf_check, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(status)
-                    .addComponent(password))
+                    .addComponent(jLabel15)
+                    .addComponent(fullname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dept_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addGap(42, 42, 42)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(status)
+                            .addComponent(password))
+                        .addGap(68, 68, 68))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(pass_text)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(passConf_check, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(dept_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel9)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -343,9 +362,9 @@ public class UserAdd extends javax.swing.JFrame {
                                 .addComponent(prv_check)
                                 .addComponent(pov_check)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(poi_check)
-                            .addComponent(prfinal_check))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(prfinal_check)
+                            .addComponent(poi_check))
                         .addGap(48, 48, 48)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(save_button)
@@ -360,6 +379,7 @@ public class UserAdd extends javax.swing.JFrame {
 
     private void reset_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reset_buttonActionPerformed
         username_text.setText(null);
+        fullname.setText(null);
         pass_text.setText(null);
         passConf_check.setText(null);
         dept_combo.setSelectedIndex(1);
@@ -379,7 +399,8 @@ public class UserAdd extends javax.swing.JFrame {
     private void save_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save_buttonActionPerformed
         if (password.getText().equals("Password Match!")) {
             UserBean ub = new UserBean();
-            ub.simpanUser(ub.setUSERid(dept_combo.getSelectedItem().toString()), username_text.getText(),
+            ub.simpanUser(ub.setUSERid(dept_combo.getSelectedItem().toString())
+                    , username_text.getText(), fullname.getText(),
                     pass_text.getText(), dept_combo.getSelectedItem().toString(),
                     prf_check.isSelected(), prv_check.isSelected(),
                     prfinal_check.isSelected(),
@@ -387,9 +408,25 @@ public class UserAdd extends javax.swing.JFrame {
                     poi_check.isSelected(), rf_check.isSelected(),
                     rfv_check.isSelected(), md_check.isSelected());
             JOptionPane.showMessageDialog(null, "User's data insertion success!");
+            username_text.setText(null);
+            fullname.setText(null);
+            passConf_check.setText(null);
+            pass_text.setText(null);
+            password.setText(null);
+            dept_combo.setSelectedIndex(1);
+            rfv_check.setSelected(false);
+            prf_check.setSelected(false);
+            prv_check.setSelected(false);
+            prfinal_check.setSelected(false);
+            pov_check.setSelected(false);
+            pof_check.setSelected(false);
+            rf_check.setSelected(false);
+            poi_check.setSelected(false);
+            md_check.setSelected(false);
         } else {
             JOptionPane.showMessageDialog(null, "User's data insertion failed, Please try again.");
             username_text.setText(null);
+            fullname.setText(null);
             passConf_check.setText(null);
             pass_text.setText(null);
             password.setText(null);
@@ -516,12 +553,14 @@ public class UserAdd extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox dept_combo;
+    private javax.swing.JTextField fullname;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

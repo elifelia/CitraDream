@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -148,7 +150,7 @@ public class ItemBean {
             }
 
         } catch (SQLException ex) {
-//            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ItemBean.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);
         }
         return ib;

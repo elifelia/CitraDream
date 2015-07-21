@@ -68,9 +68,13 @@
                                   <Component id="user_id" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="fullname" max="32767" attributes="0"/>
                                   <Component id="passconf" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Component id="warn" min="-2" max="-2" attributes="0"/>
@@ -134,6 +138,10 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="user_id" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                      <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="fullname" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -387,6 +395,16 @@
     <Component class="javax.swing.JCheckBox" name="pfFinal_View">
       <Properties>
         <Property name="text" type="java.lang.String" value="Purchase Request Finallization"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="fullname">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="user_id.setEnabled(false);"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel12">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Full Name"/>
       </Properties>
     </Component>
   </SubComponents>

@@ -3,19 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package View;
 
 import Bean.DatabaseConnection;
+import Bean.ItemBean;
+import Bean.PurchaseRequestBean;
+import java.awt.HeadlessException;
 //import Controller.PurchaseRequestLookUpTableModel;
 //import Controller.purchaseRequestDAO;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import net.proteanit.sql.DbUtils;
@@ -24,33 +34,44 @@ import net.proteanit.sql.DbUtils;
  *
  * @author Elifelia
  */
-public class PRView_LookupPR extends javax.swing.JFrame {
+public class LookupItemRR extends javax.swing.JFrame {
 //    private PurchaseRequestLookUpTableModel model;
+
     /**
      * Creates new form PurchaseRequestLookUp
      */
-    
+
     Connection conn;
     ResultSet rs;
     PreparedStatement pst;
-    
-    public PRView_LookupPR() {
+    String PONumber;
+
+    public LookupItemRR(String PONumber) throws HeadlessException {
+        this.PONumber = PONumber;
         initComponents();
         DatabaseConnection db = new DatabaseConnection();
         conn = db.getConnection();
         DBtoTable();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/icon.png")));
-        findField.getDocument().addDocumentListener(new PRView_LookupPR.FindListener());
+        findField.getDocument().addDocumentListener(new LookupItemRR.FindListener());
+
+    }
+
+    public LookupItemRR() {
+        initComponents();
+        DatabaseConnection db = new DatabaseConnection();
+        conn = db.getConnection();
+        DBtoTable2();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/icon.png")));
+        findField.getDocument().addDocumentListener(new LookupItemRR.FindListener());
 
         /**
-     * Aku mau passing value dari table row 1 aja ke JFrame PurchaseRequest
-     * ke textfieldnya (itemdesc)
-     * Jadi ceritanya kan kita buka purchaseRequest dulu, trus ada button
-     * disamping itemdescription texfield itu ada button buat buka frame baru
-     * nah value itu yang mau di passing ke window induknya
-     * okok??
-     */
-        
+         * Aku mau passing value dari table row 1 aja ke JFrame PurchaseRequest
+         * ke textfieldnya (itemdesc) Jadi ceritanya kan kita buka
+         * purchaseRequest dulu, trus ada button disamping itemdescription
+         * texfield itu ada button buat buka frame baru nah value itu yang mau
+         * di passing ke window induknya okok??
+         */
     }
 
     /**
@@ -158,7 +179,6 @@ public class PRView_LookupPR extends javax.swing.JFrame {
 //        
 //        });
 //    }
-    
     /**
      * @param args the command line arguments
      */
@@ -176,31 +196,30 @@ public class PRView_LookupPR extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PRView_LookupPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LookupItemRR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PRView_LookupPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LookupItemRR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PRView_LookupPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LookupItemRR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PRView_LookupPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LookupItemRR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PRView_LookupPR().setVisible(true);
+                new LookupItemRR().setVisible(true);
             }
         });
     }
-    
-    
-    
+
     private void DBtoTable() {
 
         try {
-            String query = "SELECT PR_Number, department_id, Request_date FROM "
-                    + "hcdy_purchasereq WHERE PR_Number LIKE '%" + findField.getText() + "%'";
+            String query = "SELECT item_id, item_name, category_id FROM hcdy_itemmaster\n"
+                    + "WHERE item_id not in\n"
+                    + "(select item_id from hcdy_receivingdetail where po_number = '"+PONumber+"');";
             pst = conn.prepareStatement(query);
             rs = pst.executeQuery();
             tableFind.setModel(DbUtils.resultSetToTableModel(rs));
@@ -208,11 +227,26 @@ public class PRView_LookupPR extends javax.swing.JFrame {
             Logger.getLogger(TableUser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    private void DBtoTable2() {
+
+        try {
+            String query = "SELECT item_id, item_name, category_id FROM hcdy_itemmaster ;";
+            pst = conn.prepareStatement(query);
+            rs = pst.executeQuery();
+            tableFind.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (SQLException ex) {
+            Logger.getLogger(TableUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     
     public void findTable() {
         try {
-            String query = "SELECT PR_Number, department_id, Request_date FROM "
-                    + "hcdy_purchasereq WHERE PR_Number LIKE '%" + findField.getText() + "%'";
+            String query = "SELECT item_id, item_name, category_id FROM hcdy_itemmaster\n"
+                    + "WHERE item_id not in\n"
+                    + "(select item_id from hcdy_receivingdetail where pr_number = '"+PONumber+"') "
+                    + "AND item_name LIKE %'"+findField.getText()+"'%;";
             pst = conn.prepareStatement(query);
             rs = pst.executeQuery();
             tableFind.setModel(DbUtils.resultSetToTableModel(rs));
@@ -220,7 +254,7 @@ public class PRView_LookupPR extends javax.swing.JFrame {
             Logger.getLogger(TableCategory.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private class FindListener implements DocumentListener {
 
         @Override

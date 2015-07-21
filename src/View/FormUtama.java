@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
  */
 public class FormUtama extends javax.swing.JFrame {
     UserBean temp;
+    
 
     /**
      * Creates new form FormUtama
@@ -247,6 +248,11 @@ public class FormUtama extends javax.swing.JFrame {
         receivingMenu.setText("Receiving");
 
         receivingForm.setText("Receiving Form");
+        receivingForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                receivingFormActionPerformed(evt);
+            }
+        });
         receivingMenu.add(receivingForm);
 
         receivingView.setText("Receiving View");
@@ -345,10 +351,9 @@ public class FormUtama extends javax.swing.JFrame {
     }//GEN-LAST:event_purchaseRequestFormActionPerformed
 
     private void purchaseRequestViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseRequestViewActionPerformed
-        // TODO add your handling code here:
-//        PurchaseRequest pr  = new PurchaseRequest();
-//        pr.setVisible(true);
-//        pr.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        PR_view pr = new PR_view();
+        pr.setVisible(true);
+        pr.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_purchaseRequestViewActionPerformed
 
     private void purchaseOrderFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseOrderFormActionPerformed
@@ -414,7 +419,7 @@ public class FormUtama extends javax.swing.JFrame {
         
         temp = ub.cariUser(usernameField.getText(), passwordField.getText());
         if (ub.login(temp)) {
-            JOptionPane.showMessageDialog(null, "Login Success!");
+//            JOptionPane.showMessageDialog(null, "Login Success!");
             purchasingMenuBar.setEnabled(true);
             masterDataMenuBar.setEnabled(true);
             jInternalFrame1.setVisible(false);
@@ -453,6 +458,14 @@ public class FormUtama extends javax.swing.JFrame {
     private void PurchaseOrderInactivingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseOrderInactivingActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_PurchaseOrderInactivingActionPerformed
+
+    private void receivingFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receivingFormActionPerformed
+        // TODO add your handling code here:
+        Receiving r = new Receiving(temp.getUser_name());
+        r.setVisible(true);
+        r.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+    }//GEN-LAST:event_receivingFormActionPerformed
 
     /**
      * @param args the command line arguments

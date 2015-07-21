@@ -26,6 +26,7 @@ public class UserBean {
     private String userID;
     private String pass;
     private String user_name;
+    private String fullname;
     private String dept_id;
     private Boolean PurchaseReq;
     private Boolean PurchaseReqView;
@@ -50,6 +51,7 @@ public class UserBean {
             while (resultSet.next()) {
                 ub.setUserID(resultSet.getString("user_id"));
                 ub.setUser_name(resultSet.getString("user_name"));
+                ub.setFullname(resultSet.getString("fullname"));
                 ub.setPass(resultSet.getString("user_pass"));
                 ub.setDept_id(resultSet.getString("dept_id"));
                 ub.setPurchaseReq(resultSet.getBoolean("bool_pfForm"));
@@ -108,6 +110,7 @@ public class UserBean {
             while (resultSet.next()) {
                 ub.setUserID(resultSet.getString("user_id"));
                 ub.setUser_name(resultSet.getString("user_name"));
+                ub.setFullname(resultSet.getString("fullname"));
                 ub.setPass(resultSet.getString("user_pass"));
                 ub.setDept_id(resultSet.getString("dept_id"));
                 ub.setPurchaseReq(resultSet.getBoolean("bool_pfForm"));
@@ -128,27 +131,28 @@ public class UserBean {
         return ub;
     }
 
-    public Boolean simpanUser(String userID, String user, String pass, String deptID, 
+    public Boolean simpanUser(String userID, String user, String fullname, String pass, String deptID, 
             Boolean prf, Boolean prv, Boolean prFinal, Boolean pof,
             Boolean pov, Boolean poi, Boolean rrf, Boolean rrv, Boolean master) {
         boolean simpanStatus = false;
         try {
             DatabaseConnection db = new DatabaseConnection();
-            String query = "INSERT INTO hcdy_userdata VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+            String query = "INSERT INTO hcdy_userdata VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
             PreparedStatement statement = db.getConnection().prepareStatement(query);
             statement.setString(1, userID);
             statement.setString(2, user);
-            statement.setString(3, pass);
-            statement.setString(4, deptID);
-            statement.setBoolean(5, prf);
-            statement.setBoolean(6, prv);
-            statement.setBoolean(7, prFinal);
-            statement.setBoolean(8, pof);
-            statement.setBoolean(9, pov);
-            statement.setBoolean(10, poi);
-            statement.setBoolean(11, rrf);
-            statement.setBoolean(12, rrv);
-            statement.setBoolean(13, poi);
+            statement.setString(3, fullname);
+            statement.setString(4, pass);
+            statement.setString(5, deptID);
+            statement.setBoolean(6, prf);
+            statement.setBoolean(7, prv);
+            statement.setBoolean(8, prFinal);
+            statement.setBoolean(9, pof);
+            statement.setBoolean(10, pov);
+            statement.setBoolean(11, poi);
+            statement.setBoolean(12, rrf);
+            statement.setBoolean(13, rrv);
+            statement.setBoolean(14, poi);
             statement.executeUpdate();
             simpanStatus = true;
 
@@ -302,30 +306,31 @@ public class UserBean {
         }
     }
     
-    public Boolean updateUser(String userID, String user, String pass, 
+    public Boolean updateUser(String userID, String user, String fullname, String pass, 
             String deptID, Boolean prf, Boolean prv, Boolean prFinal, Boolean pof,
             Boolean pov, Boolean poi, Boolean rrf, Boolean rrv, Boolean master) {
         boolean simpanStatus = false;
         try {
             DatabaseConnection db = new DatabaseConnection();
-            String query = "UPDATE hcdy_userdata SET user_name=?, user_pass=?, dept_id=?, bool_pfForm=?,"
+            String query = "UPDATE hcdy_userdata SET user_name=?, fullname=?, user_pass=?, dept_id=?, bool_pfForm=?,"
                     + "bool_pfView=?, bool_pfFinal=?, bool_poForm=?, bool_poView=?, bool_poInactive=?,"
                     + "bool_rrView=?, bool_rrForm=?, bool_masterData=? WHERE user_id=?";
             PreparedStatement statement = db.getConnection().prepareStatement(query);
             
-            statement.setString(1, user);
-            statement.setString(2, pass);
-            statement.setString(3, deptID);
-            statement.setBoolean(4, prf);
-            statement.setBoolean(5, prv);
-            statement.setBoolean(6, prFinal);
-            statement.setBoolean(7, pof);
-            statement.setBoolean(8, pov);
-            statement.setBoolean(9, poi);
-            statement.setBoolean(10, rrv);
-            statement.setBoolean(11, rrf);
-            statement.setBoolean(12, master);
-            statement.setString(13, userID);
+            statement.setString(1, fullname);
+            statement.setString(2, user);
+            statement.setString(3, pass);
+            statement.setString(4, deptID);
+            statement.setBoolean(5, prf);
+            statement.setBoolean(6, prv);
+            statement.setBoolean(7, prFinal);
+            statement.setBoolean(8, pof);
+            statement.setBoolean(9, pov);
+            statement.setBoolean(10, poi);
+            statement.setBoolean(11, rrv);
+            statement.setBoolean(12, rrf);
+            statement.setBoolean(13, master);
+            statement.setString(14, userID);
             
             statement.executeUpdate();
             simpanStatus = true;
@@ -342,6 +347,14 @@ public class UserBean {
 
     public void setPurchaseReqFinal(Boolean PurchaseReqFinal) {
         this.PurchaseReqFinal = PurchaseReqFinal;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
     
 }

@@ -73,7 +73,7 @@ public class PRDetailBean {
         this.category_id = category_id;
     }
  
-    public Boolean addPRdetail(String pr_number, String item_id , String category_id, String measureUnit_id,
+    public Boolean addPRdetail(String pr_number, String item_id ,String category_id, String measureUnit_id,
             double qtyRequest, String remarks_item) {
         Boolean pr = false;
         try {
@@ -148,5 +148,40 @@ public class PRDetailBean {
         }
         return prb;
     }
+
+    public Boolean updatePRDetail(String pr, String item, String cat, 
+            String mea, double qty, String remarks) {
+        Boolean category = false;
+        try {
+            String query = "UPDATE hcdy_purchasereqdetail SET category_id =('" + cat + "'),"
+                    + "measureUnit_id =('" + mea + "'),"
+                    + "QtyRequest =('" + qty + "'),"
+                    + "remarks_item =('" + remarks + "') "
+                    + "WHERE item_id ='" + item + "' AND PR_Number ='" + pr + "'";
+            DatabaseConnection db = new DatabaseConnection();
+            Statement statement = db.getConnection().createStatement();
+            statement.executeUpdate(query);
+            category = true;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return category;
+    }
     
+    
+    public PRDetailBean deletePRdetail(String pr, String item_id) {
+        PRDetailBean prb = new PRDetailBean();
+        try {
+            DatabaseConnection db = new DatabaseConnection();
+
+            Statement st = db.getConnection().createStatement();
+            String query = "DELETE FROM hcdy_purchasereqdetail WHERE PR_number = '" + pr + "' AND item_id = '"+item_id+"'";
+            st.executeUpdate(query);
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+
+        }
+        return prb;
+    }
 }

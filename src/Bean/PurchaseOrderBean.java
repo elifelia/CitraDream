@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -28,6 +30,7 @@ public class PurchaseOrderBean {
     private String suppliers_id;//
     private String currency_id;//
     private double grand_total;//
+    private Boolean isEmpty;
     
     Connection connection;
     ResultSet resultSet;
@@ -168,6 +171,34 @@ public class PurchaseOrderBean {
 
     public void setGrand_total(double grand_total) {
         this.grand_total = grand_total;
+    }
+    
+    public String isEmpty(String dept_id) {
+        String noPO = null;
+        try {
+            DatabaseConnection db = new DatabaseConnection();
+            Connection connect = db.getConnection();
+            String querydet = "SELECT PO_Number FROM hcdy_purchaseorder WHERE "
+                    + "isEmpty = 1 AND department_id ='" + dept_id + "'";
+            Statement st = connect.createStatement();
+            
+            ResultSet rs = st.executeQuery(querydet);
+            while (rs.next()) {                
+                noPO = rs.getString("PO_Number");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(PurchaseRequestBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return noPO;
+    }
+
+    public Boolean getIsEmpty() {
+        return isEmpty;
+    }
+
+    public void setIsEmpty(Boolean isEmpty) {
+        this.isEmpty = isEmpty;
     }
 }
 

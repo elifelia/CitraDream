@@ -65,6 +65,7 @@ public final class PurchaseRequest extends javax.swing.JFrame {
                     reqDate.setDate(req);
                     remarks_pr.setText(remarks);
                     pr.addPR(prString, deptName, null, remarks, null, false, true);
+                    DBtoTableItem();
                 } else {
                     PurchaseRequestBean temp;
                     temp = pr.cariPR(pr.isEmpty(deptName));
@@ -73,6 +74,7 @@ public final class PurchaseRequest extends javax.swing.JFrame {
                     reqDate.setDate(temp.getReq_date());
                     remarks_pr.setText(temp.getRemarks_pr());
                     dept_id.setText(temp.getDept_id());
+                    DBtoTableItem();
                 }
 
                 //ini method buat apa ya menambahkan pr saat window dibuka. gimana caranya membuat method untuk 
@@ -139,6 +141,7 @@ public final class PurchaseRequest extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         qtyRequest = new javax.swing.JTextField();
         dept_id = new javax.swing.JTextField();
+        deleteButton = new javax.swing.JButton();
 
         jLabel6.setText("jLabel6");
 
@@ -265,6 +268,15 @@ public final class PurchaseRequest extends javax.swing.JFrame {
 
         dept_id.setEnabled(false);
 
+        deleteButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        deleteButton.setText("Delete");
+        deleteButton.setToolTipText("click here to add requested item's data");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -300,22 +312,22 @@ public final class PurchaseRequest extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                             .addComponent(itemdesc, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                             .addComponent(itemLookup, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addComponent(jLabel13))
-                                    .addGap(38, 38, 38)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel15)
-                                        .addComponent(qtyRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(qtyRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel15))
+                                    .addGap(35, 35, 35)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel14))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGap(27, 27, 27)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(measure, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel16))
-                                    .addGap(18, 18, 18)
+                                        .addComponent(jLabel16)
+                                        .addComponent(measure, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(38, 38, 38)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel17)
                                         .addComponent(remarksdetail, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -324,7 +336,8 @@ public final class PurchaseRequest extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
@@ -362,9 +375,9 @@ public final class PurchaseRequest extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(purchaseRequestLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel12)))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(prNo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -380,35 +393,31 @@ public final class PurchaseRequest extends javax.swing.JFrame {
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel16))
+                        .addGap(11, 11, 11)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel13)
-                                    .addComponent(jLabel14)
-                                    .addComponent(jLabel17)
-                                    .addComponent(jLabel15))
-                                .addGap(3, 3, 3))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel16)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(itemdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(itemLookup)
-                                .addComponent(qtyRequest)
-                                .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(itemLookup))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(measure)
-                                .addComponent(remarksdetail)))
+                                .addComponent(remarksdetail)
+                                .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(qtyRequest)))
+                        .addGap(22, 22, 22)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
                                 .addComponent(resetButton)
-                                .addGap(18, 18, 18)
-                                .addComponent(addButton)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(addButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(deleteButton))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(28, 28, 28)
@@ -421,7 +430,6 @@ public final class PurchaseRequest extends javax.swing.JFrame {
                             .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(dept_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
@@ -448,8 +456,26 @@ public final class PurchaseRequest extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+
+        PRDetailBean pr = new PRDetailBean();
+        if (pr.addPRdetail(prNo.getText(), itemdesc.getText(),category.getText(),
+            measure.getText(), Double.parseDouble(qtyRequest.getText()), remarksdetail.getText())) {
+        DBtoTableItem();
+        JOptionPane.showMessageDialog(null, "Item add succeded!");
+        itemdesc.setText("");
+        category.setText("");
+        measure.setText("");
+        qtyRequest.setText("");
+        remarksdetail.setText("");
+        } else {
+            Logger.getLogger(TableUser.class.getName()).log(Level.SEVERE, null, new SQLException());
+        }
+    }//GEN-LAST:event_addButtonActionPerformed
+
     private void itemLookupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemLookupActionPerformed
-        PR_LookupItem itemLook = new PR_LookupItem();
+        LookupItem itemLook = new LookupItem(prNo.getText());
 
         itemLook.tableFind.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
             ItemBean ib = new ItemBean();
@@ -464,36 +490,50 @@ public final class PurchaseRequest extends javax.swing.JFrame {
         itemLook.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_itemLookupActionPerformed
 
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+        itemdesc.setText("");
+        qtyRequest.setText("");
+        remarksdetail.setText("");
+        category.setText("");
+        measure.setText("");
+        
+    }//GEN-LAST:event_resetButtonActionPerformed
+
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
         PurchaseRequestBean prb = new PurchaseRequestBean();
         if (prb.updatePR(prNo.getText(), dept_id.getText(), null,
-                remarks_pr.getText(), null, false, false)) {
-            JOptionPane.showMessageDialog(null, "Purchase Request successfully added/edited");
-            prNo.setText("");
-            dept_id.setText("");
-            date.setDate(null);
-            reqDate.setDate(null);
-            remarks_pr.setText("");
-            dispose();
+            remarks_pr.getText(), null, false, false)) {
+        JOptionPane.showMessageDialog(null, "Purchase Request successfully added/edited");
+        prNo.setText("");
+        dept_id.setText("");
+        date.setDate(null);
+        reqDate.setDate(null);
+        remarks_pr.setText("");
+        dispose();
         }
-
     }//GEN-LAST:event_saveActionPerformed
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+    private void itemTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemTableMouseClicked
         // TODO add your handling code here:
 
         PRDetailBean pr = new PRDetailBean();
-        if (pr.addPRdetail(prNo.getText(), itemdesc.getText(), category.getText(),
-                measure.getText(), Double.parseDouble(qtyRequest.getText()), remarksdetail.getText())) {
-            DBtoTableItem();
-            JOptionPane.showMessageDialog(null, "Item add succeded!");
-            itemdesc.setText("");
-            qtyRequest.setText("");
-            remarksdetail.setText("");
-        } else {
-            Logger.getLogger(TableUser.class.getName()).log(Level.SEVERE, null, new SQLException());
-        }
-    }//GEN-LAST:event_addButtonActionPerformed
+        PRDetailBean temp;
+        int row = itemTable.getSelectedRow();
+        temp = pr.cariPRdetail(itemTable.getModel().getValueAt(row, 0).toString(), itemTable.getModel().getValueAt(row, 1).toString());
+        itemdesc.setText(temp.getItem_id());
+        qtyRequest.setText(String.valueOf(temp.getQtyRequest()));
+        measure.setText(temp.getMeasureUnit_id());
+        remarksdetail.setText(temp.getRemarks_item());
+    }//GEN-LAST:event_itemTableMouseClicked
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here:
+        PRDetailBean pr = new PRDetailBean();
+        PRDetailBean temp;
+        int row = itemTable.getSelectedRow();
+        temp = pr.deletePRdetail(itemTable.getModel().getValueAt(row, 0).toString(), itemTable.getModel().getValueAt(row, 1).toString());
+        DBtoTableItem();
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
     public void DBtoTableItem() {
         DatabaseConnection db = new DatabaseConnection();
@@ -508,25 +548,6 @@ public final class PurchaseRequest extends javax.swing.JFrame {
             Logger.getLogger(TableUser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        itemdesc.setText("");
-        qtyRequest.setText("");
-        remarksdetail.setText("");
-    }//GEN-LAST:event_resetButtonActionPerformed
-
-    private void itemTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemTableMouseClicked
-        // TODO add your handling code here:
-
-        PRDetailBean pr = new PRDetailBean();
-        PRDetailBean temp;
-        int row = itemTable.getSelectedRow();
-        temp = pr.cariPRdetail(itemTable.getModel().getValueAt(row, 0).toString(), itemTable.getModel().getValueAt(row, 1).toString());
-        itemdesc.setText(temp.getItem_id());
-        qtyRequest.setText(String.valueOf(temp.getQtyRequest()));
-        measure.setText(temp.getMeasureUnit_id());
-        remarksdetail.setText(temp.getRemarks_item());
-    }//GEN-LAST:event_itemTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -570,6 +591,7 @@ public final class PurchaseRequest extends javax.swing.JFrame {
     private javax.swing.JButton addButton;
     private javax.swing.JTextField category;
     private com.toedter.calendar.JDateChooser date;
+    private javax.swing.JButton deleteButton;
     private javax.swing.JTextField dept_id;
     private javax.swing.JButton itemLookup;
     private javax.swing.JTable itemTable;
