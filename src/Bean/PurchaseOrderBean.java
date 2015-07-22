@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,15 +37,36 @@ public class PurchaseOrderBean {
     ResultSet resultSet;
     Statement statement;
 
+    public double POTotal(String PRNumber){
+        double amount = 0;
+        try {
+            DatabaseConnection db = new DatabaseConnection();
+            String query = "sum(total_price) from  hcdy_purchaseorderdetail where pr_number='"+PRNumber+"'";
+            PreparedStatement st = db.getConnection().prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                amount = rs.getDouble(1);
+            }
+        } catch (SQLException ex) {
+//            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Data isn't complete/ Wrong format");
+        }
+
+        return amount;
+    }
     
     
     public Boolean addPO(String po_number, String pr_number, String suppliers_id, 
-            String currency_id, Date delivery_date, double grand_total, 
-            String remarks, String status){
+            String currency_id, Date delivery_date, 
+            String remarks, double discount, double VAT, double total, boolean isEmpty){
         Boolean pr = false;
+//        double reduction;
+//        reduction = (POTotal(pr_number))-(POTotal(pr_number)*discount);
+//        double total = reduction+(reduction*VAT);
         try {
             DatabaseConnection db = new DatabaseConnection();
-            String query = "INSERT INTO hcdy_purchaseorder VALUES (?,?,?,?,?,?,?,?) ";
+            String query = "INSERT INTO hcdy_purchaseorder VALUES (?,?,?,?,?,?,?,?,?,?) ";
             PreparedStatement st = db.getConnection().prepareStatement(query);
             st.executeUpdate();
             st.setString(1, po_number);
@@ -52,10 +74,11 @@ public class PurchaseOrderBean {
             st.setString(3, suppliers_id);
             st.setString(4, currency_id);
             st.setDate(5, (java.sql.Date) delivery_date);
-            st.setDouble(6, grand_total);
+            st.setDouble(6, total);
             st.setString(7, remarks);
-            st.setString(8, status);
-            
+            st.setDouble(8, discount);
+            st.setDouble(9, VAT);
+            st.setBoolean(10, isEmpty);
             pr = true;
         } catch (SQLException ex) {
 //            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -173,13 +196,13 @@ public class PurchaseOrderBean {
         this.grand_total = grand_total;
     }
     
-    public String isEmpty(String dept_id) {
+    public String isEmpty() {
         String noPO = null;
         try {
             DatabaseConnection db = new DatabaseConnection();
             Connection connect = db.getConnection();
             String querydet = "SELECT PO_Number FROM hcdy_purchaseorder WHERE "
-                    + "isEmpty = 1 AND department_id ='" + dept_id + "'";
+                    + "isEmpty = 1";
             Statement st = connect.createStatement();
             
             ResultSet rs = st.executeQuery(querydet);
@@ -199,6 +222,64 @@ public class PurchaseOrderBean {
 
     public void setIsEmpty(Boolean isEmpty) {
         this.isEmpty = isEmpty;
+    }
+    
+    public String setPONumber() {
+        DatabaseConnection db = new DatabaseConnection();
+        String id = null;
+        try {
+            int num = 0;
+            String query = "select count(po_number) from hcdy_purchaseorder";
+            Statement st = db.getConnection().createStatement();
+            java.sql.ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                num = Integer.parseInt(rs.getString(1));
+            }
+            num++;
+            
+            SimpleDateFormat format = new SimpleDateFormat("YYYY/MM");
+            Date date = new Date();
+            
+            id = "PO-"+num+"/"+format.format(date)+"/ACCT";
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+    public void SetisEmpty(String prNumber) {
+//        Boolean empty = true;
+        int num = 0;
+        try {
+            DatabaseConnection db = new DatabaseConnection();
+            Connection connect = db.getConnection();
+            String querydet = "SELECT COUNT(item_id) FROM hcdy_purchaseorderdetail WHERE PR_Number = '" + prNumber + "'";
+            Statement st = connect.createStatement();
+            
+            ResultSet rs = st.executeQuery(querydet);
+            while (rs.next()) {                
+                num = Integer.parseInt(rs.getString(1));
+            }
+            if (num == 0) {
+                String query = "UPDATE hcdy_purchaseorder SET isEmpty = '?' WHERE PR_Number ='" + prNumber + "'";
+                
+                Connection connection = db.getConnection();
+                PreparedStatement pst = connection.prepareStatement(query);
+                pst.setBoolean(1, true);
+                pst.executeUpdate();
+//                empty = true;
+            } else {
+                String query = "UPDATE hcdy_purchaseorder SET isEmpty = '?' WHERE PR_Number ='" + prNumber + "'";
+                
+                Connection connection = db.getConnection();
+                PreparedStatement pst = connection.prepareStatement(query);
+                pst.setBoolean(1, false);
+                pst.executeUpdate();
+//                empty = false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PurchaseRequestBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+//        return empty;
     }
 }
 

@@ -256,4 +256,39 @@ public class SupplierBean {
         }
         return sb;
     }
+     public SupplierBean cariSupID(String sup) {
+        SupplierBean sb = new SupplierBean();
+        try {
+            DatabaseConnection db = new DatabaseConnection();
+
+            Statement statement = db.getConnection().createStatement();
+            String query = "SELECT * FROM hcdy_suppliers WHERE suppliers_id = '%" + sup + "%'";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+
+                sb.setSupID(resultSet.getString("suppliers_id"));
+                sb.setCompName(resultSet.getString("company_name"));
+                sb.setCompTitle(resultSet.getString("company_title"));
+                sb.setContactName(resultSet.getString("contact_name"));
+                sb.setContactTitle(resultSet.getString("contact_title"));
+                sb.setCity(resultSet.getString("city"));
+                sb.setAddress(resultSet.getString("address"));
+                sb.setPostCode(resultSet.getString("postcode"));
+                sb.setCountry(resultSet.getString("country"));
+                sb.setPhone(resultSet.getString("telephone"));
+                sb.setFax(resultSet.getString("faximile"));
+                sb.setBankName(resultSet.getString("bank_name"));
+                sb.setBankAccount(resultSet.getString("bank_acctNo"));
+                sb.setBankHolder(resultSet.getString("bank_acctHolder"));
+                sb.setComment(resultSet.getString("comment"));
+                sb.setLastDelivery(resultSet.getDate("last_delivery"));
+
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return sb;
+    }
 }

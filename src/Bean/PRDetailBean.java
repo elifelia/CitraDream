@@ -167,7 +167,22 @@ public class PRDetailBean {
         }
         return category;
     }
-    
+    public int PRDetailCount(String pr){
+        int num = 0;
+        DatabaseConnection db = new DatabaseConnection();
+        try {
+            Statement st = db.getConnection().createStatement();
+            String query = "SELECT count(item_id) FROM citradream_purchasing.hcdy_purchasereqdetail WHERE PR_number = '" + pr + "' ";
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                num = Integer.parseInt(rs.getString(1));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+
+        }
+        return num;
+    }
     
     public PRDetailBean deletePRdetail(String pr, String item_id) {
         PRDetailBean prb = new PRDetailBean();

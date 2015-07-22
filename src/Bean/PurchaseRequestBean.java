@@ -356,4 +356,21 @@ public class PurchaseRequestBean {
         }
         return noPR;
     }
+    public boolean setFinalTrue(String PR_Number){
+        boolean success = false;
+        try {
+            DatabaseConnection db = new DatabaseConnection();
+            Connection connect = db.getConnection();
+            String querydet = "UPDATE hcdy_purchasereq SET isFinal =? WHERE PR_Number =?";
+            PreparedStatement pst = connect.prepareStatement(querydet);
+            pst.setBoolean(1, true);
+            pst.setString(2, PR_Number);
+            pst.executeUpdate();
+            success = true;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(PurchaseRequestBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return success;
+    }
 }
