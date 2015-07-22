@@ -10,4 +10,15 @@
       <property name="javax.persistence.jdbc.password" value="hr"/>
     </properties>
   </persistence-unit>
+  <persistence-unit name="citradream_purchasing?zeroDateTimeBehavior=convertToNullPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>View.HcdyItemcat</class>
+    <class>View.HcdyDepartment</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.0.16:3306/citradream_purchasing?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="citra"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="citradream"/>
+    </properties>
+  </persistence-unit>
 </persistence>
